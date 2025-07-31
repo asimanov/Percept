@@ -1,0 +1,95 @@
+/////////////// [MIXINS] ///////////////
+
+// Prefixes
+//
+$prefixes: -webkit-, -moz-, -o-, "";
+ 
+// Clearfix
+//
+// accoutrement from tools module already has ths mixin
+// 
+// @mixin clearfix {
+//   &::before,
+//   &::after {
+//     content: '';
+//     display: table; 
+//   }
+ 
+//   &::after {
+//     clear: both;
+//   }
+// }
+ 
+// Ellipsis on overflow text
+// 
+@mixin ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+ 
+// Responsive visibility
+// 
+@mixin responsive-visibility($parent) {
+  #{$parent} {
+    display: block !important;
+  }
+  table#{$parent}  { display: table; }
+  tr#{$parent}     { display: table-row !important; }
+  th#{$parent},
+  td#{$parent}     { display: table-cell !important; }
+}
+ 
+// Responsive invisibility
+// 
+@mixin responsive-invisibility($parent) {
+  #{$parent} {
+    display: none !important;
+  }
+}
+ 
+// Box Sizing
+// .box-sizing(VALUE); (border-box, padding-box, content-box)
+// 
+@mixin box-sizing($boxsize: border-box) {
+  box-sizing: $boxsize;
+}
+ 
+// Border radius
+// 
+// '@include borderRadius(4px);
+// 
+@mixin borderRadius($size...) {
+  @if length($size) == 1 {
+    @each $prefix in $prefixes {
+      #{$prefix}border-radius: $size;
+    }
+  } @else {
+    @include customBorderRadius($size...);
+  }
+}
+ 
+// Box Shadow
+// 
+@mixin box-shadow($value) {
+  -webkit-box-shadow: $value;
+  -moz-box-shadow: $value;
+  box-shadow: $value;
+}
+ 
+// Extend background
+// 
+// Extend the background of the bottom most element (footer) to eliminate 
+// white space if content is not sufficient to fill the viewport. 
+// 
+// @include bgExtend($color);
+// 
+@mixin bgExtend($color) {
+  &::after {
+    content: "";
+    @include box-shadow (0px 500px 0px 500px $color);
+    display: block;
+    width: 100%;
+    position: absolute;
+  }
+}

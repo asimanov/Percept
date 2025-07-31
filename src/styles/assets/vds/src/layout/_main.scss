@@ -1,0 +1,20 @@
+@use "../config";
+
+// Default
+// 
+html {
+    font-family: var(--set-font-html);
+}
+
+body {
+    font-family: var(--set-font-body);
+    font-size: var(--set-font-size-base);
+    font-weight: var(--set-font-weight-base);
+    line-height: var(--set-font-line-height);
+    letter-spacing: var(--set-font-letter-spacing);
+    color: var(--set-color-base);
+}
+
+[data-hidden] {
+    @include config.is-hidden;
+}

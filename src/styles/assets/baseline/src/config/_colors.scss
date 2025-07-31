@@ -1,0 +1,88 @@
+// COLORS
+
+@use 'tools';
+
+// Color Maps
+// 
+$base-colors: (
+  'base-black': #100F0F,
+  'base-950':   #1C1B1A,
+  'base-900':   #282726,
+  'base-850':   #343331,
+  'base-800':   #403E3C,
+  'base-700':   #575653,
+  'base-600':   #6F6E69,
+  'base-500':   #878580,
+  'base-300':   #B7B5AC,
+  'base-200':   #CECDC3,
+  'base-150':   #DAD8CE,
+  'base-100':   #E6E4D9,
+  'base-50':    #F2F0E5,
+  'base-white': #FFFCF0,
+);
+
+$dark-colors: (
+  'dark-red':     #AF3029,
+  'dark-orange':  #BC5215,
+  'dark-yellow':  #AD8301,
+  'dark-green':   #66800B,
+  'dark-cyan':    #24837B,
+  'dark-blue':    #205EA6,
+  'dark-purple':  #5E409D,
+  'dark-magenta': #A02F6F,
+);
+
+$light-colors: (
+  'light-red':     #D14D41,
+  'light-orange':  #DA702C,
+  'light-yellow':  #D0A215,
+  'light-green':   #879A39,
+  'light-cyan':    #3AA99F,
+  'light-blue':    #4385BE,
+  'light-purple':  #8B7EC8,
+  'light-magenta': #CE5D97,
+);
+
+$theme-colors: (
+  'base':    light-dark(var(--set-color-base-white), var(--set-color-base-black)),
+  'base-inverse':    light-dark(var(--set-color-base-black), var(--set-color-base-white)),
+  'text':    light-dark(var(--set-color-base-black), var(--set-color-base-white)),
+  'red':     light-dark(var(--set-color-dark-red), var(--set-color-light-red)),
+  'orange':  light-dark(var(--set-color-dark-orange), var(--set-color-light-orange)),
+  'yellow':  light-dark(var(--set-color-dark-yellow), var(--set-color-light-yellow)),
+  'green':   light-dark(var(--set-color-dark-green), var(--set-color-light-green)),
+  'cyan':    light-dark(var(--set-color-dark-cyan), var(--set-color-light-cyan)),
+  'blue':    light-dark(var(--set-color-dark-blue), var(--set-color-light-blue)),
+  'purple':  light-dark(var(--set-color-dark-purple), var(--set-color-light-purple)),
+  'magenta': light-dark(var(--set-color-dark-magenta), var(--set-color-light-magenta)),
+  'white':   white,
+  'black':   black,
+  'primary':        var(--set-color-purple),
+  'secondary':      var(--set-color-cyan),
+);
+
+$utility-colors: (
+  'success':        var(--set-color-dark-green),
+  'error':          var(--set-color-dark-red),
+  'info':           var(--set-color-dark-blue),
+  'warning':        var(--set-color-dark-orange),
+  'white':          white,
+  'black':          black,
+);
+
+$component-colors: (
+  'body-bg':        light-dark(var(--set-color-base-white), var(--set-color-base-black)),
+  'body-text':      light-dark(var(--set-color-base-black), var(--set-color-base-white)),
+  'text-gray':      var(--set-color-base-800),
+  'border-color':   var(--set-color-base-300),
+  'shadow-color':   var(--set-color-base-600),
+);
+
+// Merge color maps
+// 
+@include tools.add-colors($base-colors, $dark-colors, $light-colors, $theme-colors, $utility-colors, $component-colors);
+
+// Create/assign css custom props from maps and expose
+// 
+tools.$color-var-prefix: 'set-color-';
+:root { @include tools.colors-- }

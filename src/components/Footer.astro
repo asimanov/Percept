@@ -1,0 +1,64 @@
+---
+const today = new Date();
+---
+
+<style>
+    footer {
+        width: 100%;
+        
+        ul {
+            list-style-type: none;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin: 0;
+            padding: 0;
+
+            li {
+                a {
+                    border: none;
+
+                    &::after {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+</style>
+
+<footer>
+    <section class="footer-note-contact">
+        <div class="row">
+            <div class="col-12 p-t-1">
+                <ul>
+                    <li><a href="mailto:anton.simanov@gmail.com" title="anton.simanov@gmail.com"><i class="fas fa-envelope" aria-hidden="true"></i></a></li>
+                    <li><a href="https://www.linkedin.com/in/antonsimanov/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                    <li><a href="https://twitter.com/AntonSimanov" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-x-twitter" aria-hidden="true"></i></a></li>
+                    <li><a href="https://www.threads.net/@antonsimanov" target="_blank" rel="noopener noreferrer" title="Threads"><i class="fa-brands fa-threads"></i></a></li>
+                    <li><a href="https://www.instagram.com/antonsimanov/" target="_blank" rel="noopener noreferrer"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                </ul>                    
+            </div>
+        </div>
+    </section>
+
+    <section class="footer-note">
+        <div class="row">
+            <div class="col-12 p-t-1">
+                <p class="m-0 font-size--sm">Built with <a href="https://simanov.dev/vds/" title="Variable Design System" target="_blank" rel="noopener noreferrer">Baseline Library</a> and some elbow grease.</p>
+                <p class="m-0 font-size--sm">Powered by an open source, JS templating, markdown driven website builder. Deal with it 🕶️</p>
+                
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="row">
+            <div class="col-xs-12 col-md-6 p-y-1 font-size--sm">
+                <i class="fad fa-copyright" aria-hidden="true"></i>
+                <span>{today.getFullYear()}</span>
+                <span>Anton Simanov</span>
+            </div>
+        </div>
+    </section>
+</footer>

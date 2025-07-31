@@ -1,0 +1,20 @@
+/////////////// [TABLES] ///////////////
+
+@use '../config';
+
+table {
+    border-collapse: collapse;
+    text-align: left;
+}
+
+table, td, th {
+    border-top: 1px solid var(--set-color-base-light);
+}
+
+thead th {
+    border-bottom: 2px solid var(--set-color-base-light); 
+}
+
+caption {
+    font-size: var(--set-font-size-xs);
+}

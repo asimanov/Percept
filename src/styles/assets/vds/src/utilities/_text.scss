@@ -1,0 +1,63 @@
+/////////////// [UTILITY: TEXT] ///////////////
+
+@use '../config';
+
+// Font families
+//
+.font-family {
+    &--serif {
+        font-family: var(--set-font-serif);
+    }
+
+    &--sans {
+        font-family: var(--set-font-sans);
+    }
+
+    &--mono {
+        font-family: var(--set-font-mono);
+    }
+}
+
+// Font sizes
+// 
+.font-size {
+    &--xs {
+        font-size: var(--set-font-size-xs);
+    }
+
+    &--sm {
+        font-size: var(--set-font-size-sm);
+    }
+
+    &--base {
+        font-size: var(--set-font-size-base);
+    }
+
+    &--md {
+        font-size: var(--set-font-size-md);
+    }
+
+    &--lg {
+        font-size: var(--set-font-size-lg);
+    }
+
+    &--xl {
+        font-size: var(--set-font-size-xl);
+    }
+}
+
+// Justify
+// 
+.text-align {
+    &--left {
+        text-align: left;
+    }
+
+    &--center {
+        text-align: center;
+    }
+
+    &--right {
+        text-align: right;
+    }
+}

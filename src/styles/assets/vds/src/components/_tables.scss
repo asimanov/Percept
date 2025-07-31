@@ -1,0 +1,52 @@
+@use "../config";
+
+.vds-table {
+    --row-color: 220,222,224;
+    --bg-color: white;
+    --color: inherit;
+    --thead-color: var(--set-color-base-tint);
+    font-family: var(--set-font-sans);
+    color: var(--color);
+    background: var(--bg-color);
+    width: 100%;
+
+    thead {
+        background: var(--thead-color);
+    }
+
+    a {
+        color: inherit;
+    }
+
+    &--row-even {
+        tbody tr:nth-child(even) {
+            background: rgba(var(--row-color), 0.3);
+        }
+    }
+
+    &--row-odd {
+        tbody tr:nth-child(odd) {
+            background: rgba(var(--row-color), 0.3);
+        }
+    }
+
+    &--caption-bottom {
+        caption {
+            caption-side: bottom;
+        }
+    }
+
+    &--dark {
+        --bg-color: var(--set-color-base);
+        --color: white;
+
+        thead {
+            background: var(--set-color-base);
+        }
+
+        caption {
+            background: var(--bg-color);
+        }
+    }
+}
+

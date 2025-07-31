@@ -1,0 +1,33 @@
+@use "../config";
+@use "../init";
+
+code {
+    --code-bg: light-dark(var(--set-color-base-100), var(--set-color-base-950));
+    --code-font-color: var(--set-color-base-inverse);
+    --code-font-weight: 700;
+    --code-display: inline-block;
+    --code-padding: 0 5rem;
+    --code-border-radius: 4rem;
+
+    background: var(--code-bg);
+    font-weight: var(--code-font-weight);
+    color: var(--code-font-color);
+    display: var(--code-display);
+    padding: var(--code-padding);
+    border-radius: var(--code-border-radius);
+}
+
+pre {
+    --pre-bg: light-dark(var(--set-color-base-100), var(--set-color-base-950));
+    --pre-color: var(--set-color-base-inverse);
+    --pre-padding: 0 5rem;
+    --pre-border-radius: 4rem;
+
+    background: var(--pre-bg);
+    color: var(--pre-color);
+    padding: var(--pre-padding);
+    border-radius: var(--pre-border-radius);
+    display: block;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}

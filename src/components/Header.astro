@@ -1,0 +1,113 @@
+---
+import HeaderLink from './HeaderLink.astro';
+---
+
+<style>
+.header {
+	display: flex;
+	flex-direction: row;
+	width: 250rem;
+	/* background: var(--set-color-base-black); */
+	/* padding: 10rem; */
+	margin-bottom: 32rem;
+	/* border-radius: 0 0 12rem 12rem; */
+	/* border: 4rem solid light-dark(transparent, var(--set-color-base-900)); */
+	/* border-top: 0; */
+
+	@media (max-width: 900px) {
+		margin-bottom: 0;
+	}
+}
+
+.header-logo-link {
+    background-size: contain;
+    background-repeat: no-repeat;
+	/* background-image: url('/assets/product/images/asim-dark.svg'); */
+}
+
+html.light-mode .header-logo-link {
+    background-image: url('/assets/product/images/percept.svg');
+}
+
+html.dark-mode .header-logo-link {
+    background-image: url('/assets/product/images/percept.svg');
+}
+
+.header__brand {
+	height: auto;
+	width: auto;
+}
+
+.header-logo-link {
+	display: block;
+	border: none;
+	width: 100px;
+	height: 80px;
+	line-height: 0;
+}
+
+.navigation__color-scheme {
+    display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-around;
+    gap: 5rem; 
+	padding-left: 10rem;
+	width: 30rem;
+}
+
+.navigation__color-scheme label {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20rem; 
+    height: 20rem; 
+    /* border: 2px solid transparent;
+    border-radius: 50%;
+    transition: border-color 0.1s ease-in-out, background-color 0.1s ease-in-out; */
+}
+
+.navigation__color-scheme label:hover {
+    border-color: var(--set-color-base-inverse);
+}
+
+.navigation__color-scheme input {
+    display: none;
+}
+
+.navigation__color-scheme input + i {
+    opacity: 0.3;
+	font-size: 20rem;
+}
+
+.navigation__color-scheme input + i:hover {
+    opacity: 0.8;
+}
+
+.navigation__color-scheme input[value="light"] + i {
+    color: var(--set-color-yellow);
+}
+
+.navigation__color-scheme input[value="dark"] + i {
+    color: var(--set-color-purple);
+}
+
+.navigation__color-scheme input:checked + i {
+	opacity: 1;
+}
+
+</style>
+
+<header class="header p-t-1">
+	
+	<div class="header__brand">
+		<HeaderLink href="/" class="header-logo-link"></HeaderLink>
+	</div>	
+
+	<div class="navigation__color-scheme">
+		<label><input name="color-scheme" type="radio" value="light"/><i class="fa-solid fa-sun-cloud"></i></label>
+		<label><input name="color-scheme" type="radio" value="dark"/><i class="fa-solid fa-moon-cloud"></i></label>
+	</div>
+	
+</header>

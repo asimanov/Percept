@@ -1,0 +1,125 @@
+/////////////// [PLACEHOLDERS] ///////////////
+
+@use 'mixins';
+ 
+// Enter and set a maximum width equal to $container-maxwidth.
+// 
+// Refactor and/or remove
+// 
+%max-width {
+  margin-left: auto;
+  margin-right: auto;
+//   max-width: $container-maxwidth;
+}
+ 
+// Perfect centering
+// 
+// Refactor and remove
+// 
+%vcenter {
+  &::before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+  }
+}
+ 
+// Center vertical with flexbox
+// 
+%center-vertical {
+  align-items: center;
+  display: flex;
+}
+ 
+// Space between with flexbox
+// 
+%space-between {
+  display: flex;
+  justify-content: space-between;
+}
+ 
+// Vertical alignment to the bottom
+// 
+%flex-end {
+  align-content: flex-end;
+}
+ 
+// Hide text - only visually
+// 
+%hide-text-overflow {
+  overflow: hidden;
+  text-indent: 100%;
+  white-space: nowrap;
+}
+ 
+// Hide text - visually and readers
+%hide-text-display {
+  display: none !important;
+  visibility: hidden;
+}
+ 
+ 
+// Hide text - remains inside the layout
+//
+%hide-text-visibility {
+  visibility: hidden;
+}
+ 
+ 
+// Visually hidden, but accessible with keyboard(focus)
+// 
+// Refactor and remove
+// 
+// .visuallyhidden.focusable:active,
+// .visuallyhidden.focusable:focus {
+//   clip: auto;
+//   height: auto;
+//   margin: 0;
+//   overflow: visible;
+//   position: static;
+//   width: auto;
+// }
+ 
+ 
+//  Clear floats.
+// 
+%clearfix {
+ 
+  ::after {
+    clear: both;
+    content: '';
+    display: table;
+  }
+}
+ 
+// Ellipsis
+// 
+%text-overflow {
+  @include mixins.ellipsis();
+}
+ 
+%ellipsis {
+  display: inline-block;
+  @extend %text-overflow;
+}
+ 
+%ellipsis-block {
+  @extend %text-overflow;
+  display: block;
+}
+ 
+// 100% width inside grid columns
+// 
+// Refactor and remove
+// 
+// %full-width {
+//   margin-left: -$grid-gutter-width / 2;
+//   margin-right: -$grid-gutter-width / 2;
+//   width: auto;
+ 
+//   @include breakpoint(bp-medium) {
+//     margin-left: -$grid-gutter-width;
+//     margin-right: -$grid-gutter-width;
+//   }
+// }

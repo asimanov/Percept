@@ -1,0 +1,22 @@
+@use '../config';
+
+form {
+    --form-font-family: var(--set-font-sans);
+    --form-font-size:   16px;
+
+    --form-color-base: light-dark(var(--set-color-base-50), var(--set-color-base-950));
+    --form-color-text: var(--set-color-inverse);
+    --form-color-base-shade:  var(--set-color-base-600);
+    --form-color-base-light:  light-dark(var(--set-color-base-100), var(--set-color-base-900));
+    --form-color-base-tint:   light-dark(var(--set-color-base-100), var(--set-color-base-950));
+    --form-color-focus:       light-dark(var(--set-color-base-950), var(--set-color-base-50));
+    --form-color-error:       var(--set-color-red);
+    --form-color-success:     var(--set-color-success);
+
+    --input-bg: var(--form-color-base-tint);
+    --input-border-color: var(--form-color-base);
+    --placeholder-color: var(--form-color-base-shade);
+
+    font-family: var(--form-font-family);
+    font-size: var(--form-font-size);
+}

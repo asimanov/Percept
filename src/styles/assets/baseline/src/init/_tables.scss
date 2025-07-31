@@ -1,0 +1,18 @@
+@use '../config';
+
+table {
+    border-collapse: collapse;
+    text-align: left;
+}
+
+table, td, th {
+    border-top: 1px solid light-dark(var(--set-color-base-500), var(--set-color-base-700));
+}
+
+thead th {
+    border-bottom: 2px solid light-dark(var(--set-color-base-500), var(--set-color-base-700)); 
+}
+
+caption {
+    font-size: var(--set-font-size-xs);
+}

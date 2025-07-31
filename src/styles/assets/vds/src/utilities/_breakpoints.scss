@@ -1,0 +1,50 @@
+/////////////// [UTILITY: BREAKPOINTS] ///////////////
+
+@use '../config';
+
+// Display block by viewport size
+// 
+.display-block-xs {
+  @include config.breakpoint-max(xs) {
+    display: block;
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+  }
+}
+
+.display-block-sm {
+  @include config.breakpoint-max(sm) {
+    display: block;
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+  }
+}
+
+.display-block-md {
+  @include config.breakpoint-max(md) {
+    display: block;
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+  }
+}
+
+.display-block-lg {
+  @include config.breakpoint-max(lg) {
+    display: block;
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+  }
+}
+
+.display-block-xl {
+  @include config.breakpoint-max(xl) {
+    display: block;
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+  }
+}

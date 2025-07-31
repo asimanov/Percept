@@ -1,0 +1,25 @@
+/////////////// [FORMS] ///////////////
+
+@use '../config';
+
+form {
+    --form-font-family: var(--set-font-sans);
+    --form-font-size:   16px;
+
+    --form-color-base:        #1b1b1b;
+    --form-color-base-shade:  #686868;
+    --form-color-base-light:  #e0e0e0;
+    --form-color-base-tint:   #eaeaea;
+    --form-color-focus:       #0050d8;
+    --form-color-focus-tint:  #d9e8f6;
+    --form-color-error:       #e31c3d;
+    --form-color-error-tint:  #f8dfe2;
+    --form-color-success:     var(--set-color-success);
+
+    --input-bg: var(--form-color-base-tint);
+    --input-border-color: var(--form-color-base);
+    --placeholder-color: var(--form-color-base-shade);
+
+    font-family: var(--form-font-family);
+    font-size: var(--form-font-size);
+}

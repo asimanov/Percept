@@ -1,0 +1,105 @@
+/////////////// [SPACING] ///////////////
+
+@use '../config';
+
+// Padding and Margin
+// 
+$number-of-sizes: 10;
+$spacer: 16rem; 
+
+@for $i from 1 through $number-of-sizes {     
+  .p-a-#{$i} {        
+    // padding: $spacer / $number-of-sizes * $i; 
+    padding: $spacer * $i; 
+  }
+  .p-t-#{$i} {        
+    padding-top: $spacer * $i;  
+  }
+  .p-b-#{$i} {        
+    padding-bottom: $spacer * $i;  
+  } 
+  .p-l-#{$i} {        
+    padding-left: $spacer * $i;  
+  } 
+  .p-r-#{$i} {        
+    padding-right: $spacer * $i;  
+  } 
+  .p-x-#{$i} {        
+    padding-left: $spacer * $i;
+    padding-right: $spacer * $i;  
+  } 
+  .p-y-#{$i} {        
+    padding-top: $spacer * $i;
+    padding-bottom: $spacer * $i;  
+  } 
+}
+
+@for $i from 1 through $number-of-sizes {     
+  .m-a-#{$i} {        
+    margin: $spacer * $i;
+  }
+  .m-t-#{$i} {        
+    margin-top: $spacer * $i; 
+  }
+  .m-b-#{$i} {        
+    margin-bottom: $spacer * $i;  
+  } 
+  .m-l-#{$i} {        
+    margin-left: $spacer * $i;  
+  } 
+  .m-r-#{$i} {        
+    margin-right: $spacer * $i;  
+  } 
+  .m-x-#{$i} {        
+    margin-left: $spacer * $i;
+    margin-right: $spacer * $i;  
+  } 
+  .m-y-#{$i} {        
+    margin-top: $spacer * $i;
+    margin-bottom: $spacer * $i;  
+  } 
+}
+
+// Reset padding size
+// 
+.p-a-0 {
+  padding: 0;
+}
+
+.p-t-0 {
+  padding-top: 0;
+}
+
+.p-b-0 {
+  padding-bottom: 0;
+}
+
+.p-l-0 {
+  padding-left: 0;
+}
+
+.p-r-0 {
+  padding-right: 0;
+}
+
+// Reset margin size
+// 
+.m-a-0 {
+  margin: 0;
+}
+
+.m-t-0 {
+  margin-top: 0;
+}
+
+.m-b-0 {
+  margin-bottom: 0;
+}
+
+.m-l-0 {
+  margin-left: 0;
+}
+
+.m-r-0 {
+  margin-right: 0;
+}

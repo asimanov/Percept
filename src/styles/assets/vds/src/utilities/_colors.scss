@@ -1,0 +1,37 @@
+/////////////// [UTILITY: COLORS] ///////////////
+
+@use '../config';
+
+// Background colors
+// 
+.vds-bg {
+  background: transparent; 
+
+  @each $type, $color in config.$brand-colors {
+    &--#{$type} {
+      background-color: $color;
+    }
+  }
+
+  @each $type, $color in config.$utility-colors {
+    &--#{$type} {
+      background-color: $color;
+    }
+  }
+}
+
+// Text colors
+// 
+.vds-text {
+  @each $type, $color in config.$brand-colors {
+    &--#{$type} {
+      color: $color;
+    }
+  }
+
+  @each $type, $color in config.$utility-colors {
+    &--#{$type} {
+      color: $color;
+    }
+  }
+}

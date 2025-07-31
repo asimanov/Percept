@@ -1,0 +1,16 @@
+.intro-card__about {
+    background: url(https://antonsimanov.com/user/themes/vds/images/colophon-bw-1.jpg) center center no-repeat;
+    background-size: auto;
+    background-size: cover;
+}
+
+.about footer {
+    margin: 0;
+}
+
+@media (max-width:744px){
+    .about header img {
+        margin: 0 auto;
+        display: block;
+    }
+}

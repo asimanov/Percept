@@ -1,0 +1,30 @@
+/////////////// [UTILITY: DISPLAY] ///////////////
+
+@use '../config';
+
+// Display block 
+// 
+.display-block {
+    display: block;
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+}
+
+// Display inline-block 
+// 
+.display-inline-block {
+    display: inline-block;
+}
+
+// Display inline 
+// 
+.display-inline {
+    display: inline;
+}
+
+// Display flex 
+// 
+.display-flex {
+    display: flex;
+}

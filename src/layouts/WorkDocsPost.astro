@@ -1,0 +1,180 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Nav from '../components/Nav.astro';
+import Header from '../components/Header.astro';
+import Aside from '../components/Aside.astro';
+import Footer from '../components/Footer.astro';
+
+type Props = CollectionEntry<'workdocs'>['data'];
+
+const { title, description, pubDate, updatedDate, heroImage, author, tags, rangeDate } = Astro.props;
+
+function formatRangeDate(rangeDate: { start: Date, end: Date }) {
+  const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: '2-digit', day: '2-digit' };
+  const start = rangeDate.start.toLocaleDateString(undefined, options);
+  const end = rangeDate.end.toLocaleDateString(undefined, options);
+  return `${start} - ${end}`;
+}
+
+function formatDate(date: Date) {
+  const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: '2-digit', day: '2-digit' };
+  return date.toLocaleDateString(undefined, options);
+}
+
+---
+
+<html lang="en">
+	<head>
+		<BaseHead title={title} description={description} />
+		<!-- <script type="module" src="/assets/product/js/nav-builder.js" defer></script>
+        <script type="module" src="/assets/product/js/smooth-scroll.js" defer></script> -->
+		<script src="/assets/product/js/nav-builder.js" is:inline></script>
+		<script src="/assets/product/js/smooth-scroll.js" is:inline></script>
+
+<style>
+.workdocs-header {
+	border-radius: 6rem;
+	padding: 1em;
+}
+
+.workdocs-date-range {
+	font-family: var(--set-font-mono);
+	font-size: var(--set-font-size-sm);
+}
+
+.workdocs-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 10rem; 
+  width: 100%; 
+}
+
+.workdocs {
+  order: 1;
+
+  	h4, h6 {
+		--heading-underline-color: var(--set-color-base-inverse);
+		position: relative;
+		margin-bottom: 26rem;
+
+		&::after {
+			content: "";
+			display: block;
+			width: 60rem;
+			height: 6rem;
+			background: var(--heading-underline-color);
+			position: absolute;
+			left: 0;
+			bottom: -10rem;
+		}
+	}
+
+	ul {
+        margin-bottom: 2em !important;
+    }
+}
+
+.workdocs-nav-container {
+	order: 2;
+}
+
+.workdocs-nav {
+	font-family: var(--set-font-mono);
+    font-size: var(--set-font-size-xs);
+
+	li {
+		/* margin-bottom: 0; */
+
+		a {
+			display: inline;
+		}
+	}
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  .workdocs-container {
+    grid-template-columns: 1fr;
+  }
+
+  .workdocs-nav-container {
+    grid-column: 1 / -1;
+    order: 1; 
+  }
+
+  .workdocs {
+    grid-column: 1 / -1;
+    order: 2; 
+  }
+}
+</style>
+	</head>
+
+	<body>
+
+		<main>
+
+			<div class="App">
+				<div class="Layout">
+	
+					<div class="Masthead">
+						<Header />
+					</div>
+	
+					<main class="Main">
+						<Nav />	
+
+	<header class="workdocs-header p-y-1" style="background: url(/assets/product/images/landing-hero-landscape.jpg) center center no-repeat; background-size: cover;">
+		
+		<div class="row">
+			<div class="col-2">
+				<img src="/Media/docs/docs-illu.svg">
+			</div>
+			<div class="col-10">
+				<h1 class="bsln-text--white">Completed tasks &amp; projects for the year of {title}.</h1>
+				<p class="bsln-text--white"><strong>The data was sourced from project &amp; task management software (ex: Trello); processed &amp; combined by robot 🤖; sanitized, condensed, &amp; reorganized by human 👨</strong></p>
+			</div>
+		</div>
+		
+	</header>
+
+	<div class="workdocs-date-range p-t-1">
+		<span><strong>Published:</strong> {formatDate(pubDate)}</span> |
+		<span><strong>Date range:</strong> {rangeDate ? formatRangeDate(rangeDate) : 'N/A'}</span>
+	</div>
+
+	<div class="workdocs-container">
+		<div class="workdocs-nav-container">
+			<nav>
+				<h3 class="m-a-0 p-y-1">CATEGORY</h3>
+				<ul class="workdocs-nav"></ul>
+			</nav>
+		</div>
+
+		<section class="workdocs">
+			<div class="workdocs__content">
+
+				<h3 class="m-a-0 p-y-1">CONTENT</h3>
+				<slot />
+			</div>
+
+		</section>
+	</div>
+				
+					</main>
+						
+					<div class="Aside">
+					
+						<Aside />
+
+					</div>
+
+				</div>
+
+			<Footer />
+
+		</div>
+		
+	</body>
+</html>

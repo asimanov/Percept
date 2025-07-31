@@ -1,0 +1,32 @@
+/////////////// [LINKS] ///////////////
+
+@use 'config';
+
+a {
+  &:link,
+  &:visited {
+    --link-color: var(--set-color-base);
+    --link-style-color: var(--set-color-secondary);
+
+    text-decoration: none;
+    display: inline-block;
+    color: var(--link-color);
+    border-bottom: 2px solid var(--link-style-color);
+  }
+
+  &:hover,
+  &:focus,
+  &:active {
+    color: var(--link-style-color);
+  }
+
+  &[href*='://'] {
+    &::after {
+      content: '↗';
+      font-size: 0.7em;
+      font-weight: 400;
+      display: inline-block;
+      padding-left: 4rem;
+    }
+  }
+}

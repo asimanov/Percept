@@ -1,0 +1,200 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Nav from '../../components/Nav.astro';
+import Header from '../../components/Header.astro';
+import Aside from '../../components/Aside.astro';
+import Footer from '../../components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
+import { getCollection } from 'astro:content';
+import Gallery from '../../components/Gallery.astro';
+
+const posts = (await getCollection('art')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+---
+
+<style>
+.percept-container {
+	display: flex;
+	flex-direction: row;
+	gap: 40px;
+}
+
+.percept-journal {
+	width: 100%;
+}
+
+.entry-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.entry {
+  --card-box-shadow: none;
+  border-radius: 6px;
+  box-sizing: border-box;
+  border-bottom: none;
+  background: none;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  h5 {
+	color: var(--set-color-purple);
+  }
+
+  &:hover {
+	color: var(--set-color-purple);
+  }
+}
+
+time {
+	font-family: var(--set-font-mono);
+}
+
+.excerpt {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-wrap: balance;
+}
+
+h4, h6 {
+	--heading-underline-color: var(--set-color-base-inverse);
+	position: relative;
+	margin-bottom: 26rem;
+	text-wrap: pretty;
+
+	&::after {
+		content: "";
+		display: block;
+		width: 60rem;
+		height: 6rem;
+		background: var(--heading-underline-color);
+		position: absolute;
+		left: 0;
+		bottom: -10rem;
+	}
+}
+
+h5 {
+	text-wrap: pretty;
+}
+
+.entry:first-child {
+  grid-column: 1 / -1; /* Span all columns */
+}
+
+.header h3 {
+	text-wrap: pretty;
+}
+
+@media (max-width: 900px) {
+  .entry-container {
+    gap: 10px;
+  }
+
+  .entry:first-child {
+    grid-column: 1 / -1; /* Ensure it spans all columns on smaller screens as well */
+  }
+}
+
+@media (max-width: 600px) {
+
+  .entry-container {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .percept-container {
+	flex-direction: column;
+	gap: 10px;
+  }
+
+  .entry:first-child {
+    grid-column: 1 / -1; /* Ensure it spans all columns on very small screens as well */
+  }
+}
+</style>
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<div class="App">
+			<div class="Layout">
+
+				<div class="Masthead">
+					<Header />
+				</div>
+
+				<main class="Main">
+					<Nav />
+
+					<header>
+						<div class="p-y-6 p-x-2 m-b-2" style="background: url(/assets/product/images/percept/p-bg-02.jpg) 50% no-repeat; background-size: cover; border-radius: 6rem;">
+						</div>
+					</header> 
+
+					<div class="percept-container">
+
+						<div class="percept-journal">
+							
+							<h4>Art Entries</h4>
+
+							<div class="entry-container">
+				
+								{
+									posts.map((post) => (
+										
+										<a href={`/art/${post.slug}`} class="entry bsln-card">
+
+											<div>	
+											<p>
+												<time class="font-size--xs">
+													{new Date(post.data.pubDate).toLocaleDateString('en-us', {
+														year: 'numeric',
+														month: 'numeric',
+														day: 'numeric',
+													})}
+												</time>	
+											</p>
+
+											<h5>{post.data.title}</h5>
+											</div>
+
+											<div><p class="excerpt">{post.data.description}</p></div>
+											
+										</a>
+									))
+								}
+								
+							</div>
+
+						</div>
+
+					</div>
+
+				</main>
+				
+				<div class="Aside">
+					
+					<Aside />
+
+				</div>
+
+			</div>
+
+		<Footer />
+
+		</div>
+
+	</body>
+</html>

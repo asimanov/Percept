@@ -1,0 +1,169 @@
+@use "../config";
+@use "../init";
+
+.vds-button,
+a.vds-button {
+  @extend button;
+  // From init
+  --btn-font: var(--set-font-sans);
+  --btn-color: var(--set-color-base);
+  --btn-bg: var(--set-color-base-tint);
+  --btn-border: 1px solid var(--set-color-base-light);
+  --btn-border-radius: 0.2em;
+  --btn-border-width: 1rem 1rem calc(.2em + .5rem) 1rem;
+  --btn-padding: calc(0.5em + 0.2vw) calc(1em + 0.2vw);
+  --btn-margin: 0.5em;
+
+  display: inline-block;
+  line-height: initial;
+  color: var(--btn-color);
+  background: var(--btn-bg);
+  border: var(--btn-border);
+  border-radius: var(--btn-border-radius);
+  border-width: var(--btn-border-width);
+  padding: var(--btn-padding);
+  margin: var(--btn-margin);
+
+  // remove auto link type icon
+  &::after {
+    display: none;
+  }
+
+  &:first-child {
+    margin-left: 0;
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  &:hover,
+  &:focus,
+  &:active {
+    opacity: .8;
+    filter: saturate(1.5);
+    cursor: pointer;
+  }
+  
+  // Colors and style
+  &--primary {
+    --btn-color: var(--set-color-white);
+    --btn-bg: var(--set-color-primary);
+    --btn-border: 1px solid var(--set-color-primary-shade);
+  }
+
+  &--secondary {
+    --btn-color: var(--set-color-white);
+    --btn-bg: var(--set-color-secondary);
+    --btn-border: 1px solid var(--set-color-secondary-shade);
+  }
+
+  &--dark {
+    --btn-color: var(--set-color-white);
+    --btn-bg: var(--set-color-base);
+    --btn-border: 1px solid var(--set-color-black);
+  }
+
+  &--white {
+    --btn-color: var(--set-color-base);
+    --btn-bg: var(--set-color-white);
+    --btn-border: 1px solid var(--set-color-base-light);
+  }
+
+  &--outlined {
+    --btn-bg: transparent;
+    --btn-border: 1rem solid var(--set-color-base);
+    --btn-border-width: 2rem;
+  }
+
+  &--outlined-light {
+    --btn-color: var(--set-color-base-tint);
+    --btn-bg: transparent;
+    --btn-border: 1rem solid var(--set-color-base-tint);
+    --btn-border-width: 2rem;
+  }
+
+  // Sizes
+  &--xl {
+    --btn-padding: calc(1em + 0.2vw) calc(1.75em + 0.2vw);
+    font-size: var(--set-font-size-xl);
+  }
+
+  &--lg {
+    --btn-padding: calc(0.7em + 0.2vw) calc(1.2em + 0.2vw);
+    font-size: var(--set-font-size-lg);
+  }
+
+  &--sm {
+    --btn-padding: calc(0.07em + 0.2vw) calc(0.3em + 0.2vw);
+    font-size: var(--set-font-size-sm);
+  }
+
+  &--xs {
+    --btn-padding: calc(0em + 0.2vw) calc(0.1em + 0.2vw);
+    font-size: var(--set-font-size-xs);
+  }
+
+  // Disabled class
+  &--disabled {
+    filter: grayscale(100%);
+    cursor: default;
+    opacity: 0.5;
+
+    &:hover,
+    &:focus,
+    &:active {
+      filter: grayscale(100%);
+      cursor: default;
+      opacity: 0.5;
+    }
+  }
+}
+
+// button group
+// 
+.vds-button-group {
+  white-space: nowrap;
+  display: flex;
+  flex-direction: row;
+
+  @include config.breakpoint-max(sm) {
+    flex-direction: column;
+  }
+
+  .vds-button,
+  a.vds-button {
+    display: inline-block;
+    margin: 0;
+
+    @include config.breakpoint-max(sm) {
+      --btn-margin: 0.05em 0;
+
+      border: var(--btn-border);
+      margin: var(--btn-margin);
+    }
+
+    &:not(:first-child) {
+      border-bottom-left-radius: 0;
+      border-top-left-radius: 0;
+
+      @include config.breakpoint-max(sm) {
+        border: var(--btn-border);
+        border-radius: var(--btn-border-radius);
+        border-width: var(--btn-border-width);
+      }
+    }
+
+    &:not(:last-child) {
+      border-bottom-right-radius: 0;
+      border-right: 0;
+      border-top-right-radius: 0;
+
+      @include config.breakpoint-max(sm) {
+        border: var(--btn-border);
+        border-radius: var(--btn-border-radius);
+        border-width: var(--btn-border-width);
+      }
+    }
+  }
+}

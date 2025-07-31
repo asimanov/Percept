@@ -1,0 +1,39 @@
+@use "../config";
+
+.bsln-table {
+    --row-color: light-dark(var(--set-color-base-100), var(--set-color-base-950));
+    --bg-color: var(--set-color-base);
+    --color: light-dark(var(--set-color-base-black), var(--set-color-base-white));
+    --thead-color: light-dark(var(--set-color-base-200), var(--set-color-base-900));
+    font-family: var(--set-font-sans);
+    color: var(--color);
+    background: var(--bg-color);
+    width: 100%;
+
+    thead {
+        background: var(--thead-color);
+    }
+
+    a {
+        color: inherit;
+    }
+
+    &--row-even {
+        tbody tr:nth-child(even) {
+            background: var(--row-color);
+        }
+    }
+
+    &--row-odd {
+        tbody tr:nth-child(odd) {
+            background: var(--row-color);
+        }
+    }
+
+    &--caption-bottom {
+        caption {
+            caption-side: bottom;
+        }
+    }
+}
+

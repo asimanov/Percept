@@ -1,0 +1,15 @@
+/////////////// [BLOCKQUOTE] ///////////////
+
+@use "../config";
+@use "../init";
+
+blockquote {
+
+    a {
+        display: inline !important;
+
+        &::after {
+            display: none !important;
+        }
+    }
+}

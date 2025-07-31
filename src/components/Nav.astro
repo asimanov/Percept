@@ -1,0 +1,103 @@
+---
+import HeaderLink from './HeaderLink.astro';
+import type { HTMLAttributes } from 'astro/types';
+
+type Props = HTMLAttributes<'a'>;
+
+const { href, class: className, ...props } = Astro.props;
+
+const { pathname } = Astro.url;
+const isActive = href === pathname || href === pathname.replace(/\/$/, '');
+---
+
+<nav class="navigation">
+    <div class="navigation__container m-y-1">
+        
+        <div class="navigation__content">
+
+            <ul class="navigation__list">
+                <li>
+                    <HeaderLink href="/" class="navigation__link" title="Home" class:list={[className, { active: isActive }]} {...props}>
+                        <span>Home</span>
+                    </HeaderLink>
+                </li>
+                <li>
+                    <HeaderLink href="/colophon" title="Colophon" class="navigation__link">
+                        <span>Colophon</span>
+                    </HeaderLink>
+                </li>
+                <li>
+                    <HeaderLink href="/journal" title="Journal" class="navigation__link">
+                        <span>Journal</span>
+                    </HeaderLink>
+                </li>
+                <li>
+                    <HeaderLink href="/art" title="Art" class="navigation__link">
+                        <span>Art</span>
+                    </HeaderLink>
+                </li>
+                <li>
+                    <HeaderLink href="/essays" title="Essays" class="navigation__link">
+                        <span>Essays</span>
+                    </HeaderLink>
+                </li>
+                <li>
+                    <HeaderLink href="/M43" title="M43" class="navigation__link">
+                        <span>M43</span>
+                    </HeaderLink>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</nav> 
+
+<style>
+    .navigation {
+        /* background: rgba(0,0,0,0.1); */
+        /* box-shadow: none; */
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        justify-content: space-between;
+
+        a {
+            border-width: 2rem;
+            /* font-weight: 700; */
+            font-family: var(--set-font-mono);
+        }
+    }
+
+    .navigation__color-scheme {
+        width: 100%;
+    }
+
+    .navigation__container {
+        width: 100%;
+    }
+
+    .navigation__title {
+        display: block;
+
+        img {
+            width: 80px;
+            height: auto;
+        }
+    }
+
+    .navigation__content {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between; 
+        width: 100%;
+
+        ul {
+            display: flex;
+            flex-direction: row;
+            list-style-type: none;
+            width: 100%;
+            padding: 0;
+            justify-content: space-between;
+        }
+    }
+</style>

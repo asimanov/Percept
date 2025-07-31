@@ -1,0 +1,25 @@
+/////////////// [MESSAGES] ///////////////
+
+@use "../config";
+@use "../init";
+
+// All site warning
+// 
+.vds-warning-browser {
+    --warning-bg: var(--set-color-error);
+    --warning-font: var(--set-font-sans);
+    --warning-color: var(--set-color-white);
+    --warning-padding: 0.5em;
+
+    background: var(--warning-bg);
+    color: var(--warning-color);
+    font-family: var(--warning-font);
+    padding: var(--warning-padding);
+    display: block;
+}
+
+@supports (display:grid) {
+    .vds-warning-browser {
+        display: none;
+    }
+}

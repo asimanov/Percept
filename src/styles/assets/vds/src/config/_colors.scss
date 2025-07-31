@@ -1,0 +1,74 @@
+/////////////// [COLORS] ///////////////
+
+@use 'tools';
+
+// Color Maps
+// 
+$brand-colors: (
+  'primary':        #005ea2,
+  'primary-tint':   #73b3e7,
+  'primary-shade':  #162e51,
+  'secondary':      #e41d3d,
+  'secondary-tint': #f2938c,
+  'secondary-shade':#8b1303,
+  'base':           #1B1B1B,
+  'base-light':     #a9aeb1,
+  'base-tint':      #dcdee0,
+);
+
+$utility-colors: (
+  'black':          #000000,
+  'white':          #ffffff,
+  'green':          #2e8540,
+  'blue':           #0071bc,
+  'red':            #e31c3d,
+  'success':        #4caf50,
+  'error':          #e74c3c,
+  'info':           #5bc0de,
+  'warning':        #f0ad4e,
+);
+
+$component-colors: (
+  'body-bg':        #ffffff,
+  'body-text':      #1b1b1b,
+  'text-gray':      #a9aeb1,
+  'border-color':   #dddddd,
+  'shadow-color':   rgba(0, 0, 0, .2),
+  'form-base':      #1b1b1b,
+  'form-base-light':#a9aeb1,
+  'form-base-tint': #dcdee0,
+  'form-focus':     #0050d8,
+  'form-focus-tint':#d9e8f6,
+  'form-error':     #e31c3d,
+  'form-error-tint':#f8dfe2,
+  'form-success':   #2e8540,
+);
+
+$social-colors: (
+  'fb':             rgb(59, 89, 182),
+  'tw':             rgb(64, 153, 255),
+  'pinterest':      rgb(203, 32, 39),
+  'skype':          rgb(18, 165, 244),
+  'spotify':        rgb(129, 183, 26),
+  'instagram':      #4e433c,
+  'tumblr':         #2b4964,
+  'vimeo':          #86b32d,
+  'soundcloud':     #f76600,
+  'youtube':        #ff3333,
+  'linkedin':       #4875b4,
+  'flickr':         #fe0883,
+  'foursquare':     #8fd400,
+);
+
+// Merge color maps
+// 
+@include tools.add-colors($brand-colors, $utility-colors, $component-colors, $social-colors);
+
+// Create/assign css custom props from maps and expose
+// 
+tools.$color-var-prefix: 'set-color-';
+:root { @include tools.colors-- }
+
+// Shadows
+// 
+$box-shadow: 0 0 5px var(--rkt-color-shadow-color);

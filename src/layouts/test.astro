@@ -1,0 +1,16 @@
+---
+const props = Astro.props;
+---
+
+<html lang="en">
+	<head>
+		<title>{props.title}</title>
+	</head>
+	<body>
+		<h1>{props.title}</h1>
+		<p>Published on: {props.pubDate}</p>
+		<p>Updated on: {props.updatedDate}</p>
+
+		<slot />
+	</body>
+</html>

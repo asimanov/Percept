@@ -1,0 +1,41 @@
+@use "../config";
+
+button,
+[type="button"],
+[type="submit"],
+[type="reset"] {
+  --btn-font: var(--set-font-sans);
+  --btn-color: var(--set-color-base);
+  --btn-bg: var(--set-color-base-light);
+  --btn-border: 1px solid var(--set-color-base);
+
+  font-family: var(--btn-font);
+  color: var(--btn-color);
+  background: var(--btn-bg);
+  border: var(--btn-border);
+  padding: 0.25em 0.5em;
+
+  &:hover,
+  &:focus,
+  &:active {
+    // --btn-bg: var(--set-color-base-tint);
+    // --btn-border: 1px solid var(--set-color-base-light);
+    opacity: .8;
+    filter: saturate(1.5);
+    cursor: pointer;
+  }
+
+  &:active {
+    // --btn-bg: var(--ccs-accent--bg2);
+    // --btn-color: var(--ccs-accent--fg2);
+    // --btn-border: var(--ccs-accent--fg3);
+    // --btn-shade: hsla(var(--ccs-h--accent), var(--ccs-s--fg1), var(--ccs-l--fg1), 0.25);
+    // --btn-shadow: var(--text-shadow-off-invert) var(--text-shadow-off-invert);
+  }
+
+  &:disabled {
+    filter: grayscale(100%);
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}

@@ -1,0 +1,161 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Nav from '../components/Nav.astro';
+import Header from '../components/Header.astro';
+import Aside from '../components/Aside.astro';
+import Footer from '../components/Footer.astro';
+
+type Props = CollectionEntry<'journal'>['data'];
+
+const { title, description, pubDate, updatedDate, author, tags, background } = Astro.props;
+---
+
+<html lang="en">
+	<head>
+		<BaseHead title={title} description={description} image={background || undefined} />
+
+<style>
+	/* .entry-header {
+		margin-bottom: 2em;
+	} */
+
+	.entry-header__hero {
+		padding: 5em 0;
+		border-radius: 6rem;
+		margin-bottom: 1em;
+		background-size: cover;
+	}
+
+	.meta-dates {
+      font-family: var(--set-font-mono);
+      font-size: var(--set-font-size-sm);
+    }
+
+	.post__content {
+		p {
+			margin-bottom: 1em;
+		}
+
+		h2 {
+			--heading-underline-color: var(--set-color-base-inverse);
+			position: relative;
+			margin-bottom: 26rem;
+
+			&::after {
+				content: "";
+				display: block;
+				width: 60rem;
+				height: 6rem;
+				background: var(--heading-underline-color);
+				position: absolute;
+				left: 0;
+				bottom: -10rem;
+			}
+		}
+
+		h4, h6 {
+			--heading-underline-color: var(--set-color-base-inverse);
+			position: relative;
+			margin-bottom: 26rem;
+
+			&::after {
+				content: "";
+				display: block;
+				width: 60rem;
+				height: 6rem;
+				background: var(--heading-underline-color);
+				position: absolute;
+				left: 0;
+				bottom: -10rem;
+			}
+		}
+
+	.post__meta {
+		font-family: var(--set-font-mono);
+		margin-bottom: 10rem;
+	}
+
+	h1 {
+		--heading-underline-color: var(--set-color-base-inverse);
+		position: relative;
+		margin-bottom: 26rem;
+
+		&::after {
+			content: "";
+			display: block;
+			width: 100rem;
+			height: 6rem;
+			background: var(--heading-underline-color);
+			position: absolute;
+			left: 0;
+			bottom: -10rem;
+		}
+	}
+</style>
+
+	</head>
+
+	<body>
+		<main>
+
+			<div class="App">
+				<div class="Layout">
+	
+					<div class="Masthead">
+						<Header />
+					</div>
+	
+					<main class="Main">
+						<Nav />
+						
+						<header class="entry-header">
+
+							<img src={background} style="height: auto; width: 100%; border-radius: 6rem;" alt={title}> 
+
+							<div class="meta-dates p-b-1">
+								<span><strong>Published:</strong> {new Date(pubDate).toLocaleDateString('en-us', {
+									year: 'numeric',
+									month: 'numeric',
+									day: 'numeric',
+								})}</span> |
+								{updatedDate && (
+									<span>
+									  <strong>Updated:</strong>
+									  {new Date(updatedDate).toLocaleDateString('en-us', {
+										year: 'numeric',
+										month: 'numeric',
+										day: 'numeric',
+									  })}
+									</span>
+								)}
+							</div>
+
+						</header>
+			
+						<div class="post">
+							<section class="section">
+
+								<div class="post__content">
+									<slot />
+								</div>
+							
+							</section>
+						</div>
+					
+					</main>
+				
+					<div class="Aside">
+					
+						<Aside />
+	
+					</div>
+	
+				</div>
+	
+			<Footer />
+
+		</div>
+			
+	</body>
+</html>

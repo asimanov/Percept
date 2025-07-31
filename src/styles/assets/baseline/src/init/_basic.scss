@@ -1,0 +1,53 @@
+@use '../config';
+ 
+:root {
+  color-scheme: light dark;
+  --highlight-color: light-dark(hotpink, lime);
+}
+
+:root {
+  &:has(input[name="color-scheme"][value="light dark"]:checked) {
+    color-scheme: light dark;
+  }
+  &:has(input[name="color-scheme"][value="light"]:checked) {
+    color-scheme: light;
+  }
+  &:has(input[name="color-scheme"][value="dark"]:checked) {
+    color-scheme: dark;
+  }
+}
+
+body {
+  color: var(--set-color-text);
+  background-color: var(--set-color-base);
+  min-height: 100%;
+  overflow-x: hidden;
+  position: relative;
+}
+
+mark {
+  background: var(--highlight-color);
+}
+ 
+p {
+  font-weight: 400;
+}
+ 
+img {
+  max-width: 100%;
+}
+ 
+strong {
+  font-weight: 700;
+}
+ 
+ul, ol {
+  margin-bottom: 1rem;
+  padding-left: 1em;
+
+  li {
+    margin-bottom: .5em;
+  }
+}
+
+ul, ol, dd{list-style:initial;}

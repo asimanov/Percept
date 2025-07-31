@@ -1,0 +1,33 @@
+/////////////// [BASIC] ///////////////
+
+@use '../config';
+
+@include config.global-box-sizing;
+ 
+body {
+  min-height: 100%;
+  overflow-x: hidden;
+  position: relative;
+  @include config.clearfix;
+}
+ 
+p {
+  font-weight: 400;
+}
+ 
+img {
+  max-width: 100%;
+}
+ 
+strong {
+  font-weight: 700;
+}
+ 
+ul, ol {
+  margin-bottom: 1rem;
+  padding-left: 1rem;
+
+  li {
+    margin-bottom: .5em;
+  }
+}

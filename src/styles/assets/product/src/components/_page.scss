@@ -1,0 +1,75 @@
+.page-header {
+    /* padding-top: 45rem; */
+    /* background-color: var(--set-color-base); */
+    /* color: var(--set-color-white); */
+    /* background-image: url(https://www.transparenttextures.com/patterns/stardust.png); */
+    padding: 65rem 0 0 0;
+}
+
+.post-header img {
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+    background: #fff;
+}
+
+// internal nav
+// 
+.aside-nav {
+    // display: flex;
+    // flex-direction: column;
+    // height: 100%;
+    // display: block;
+    display: flex;
+    align-items: flex-start;
+    height: 100%;
+
+    nav {
+        --aside-nav-bg: white;
+        --aside-nav-font: var(--set-font-mono);
+        --aside-nav-border-radius: 0;
+        --aside-nav-padding: 0.25em 0.5em;
+        --aside-nav-border-color: var(--set-color-base-tint);
+        
+        position: sticky;
+        top: 60px;
+        background: var(--aside-nav-bg);
+        font-family: var(--aside-nav-font);
+        border-radius: var(--aside-nav-border-radius);
+        width: 100%;
+        // align-self: flex-start;
+
+        ul {
+            li {
+                margin: 0;
+            }
+        }
+
+        a {
+            border: none;
+            display: block;
+            padding: var(--aside-nav-padding);
+            font-weight: 700;
+            transition: ease-in .1s all;
+            border-right: 6rem solid var(--aside-nav-border-color);
+            font-size: 0.9em;
+            word-break: break-all;
+            hyphens: auto;
+
+            &:hover {
+                border-color: var(--set-color-secondary);
+            }
+
+            @media (max-width:744px) {
+                border: none;
+
+                &::before {
+                    content: "\f107";
+                    font-family: "Font Awesome 5 Pro";
+                    padding-right: 0.5em;
+                    color: var(--set-color-base-light);
+                }
+            }
+        }
+    }
+}

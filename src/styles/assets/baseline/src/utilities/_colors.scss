@@ -1,0 +1,22 @@
+@use '../config';
+
+// Background colors
+.bsln-bg {
+  background: transparent; 
+
+  @each $type, $color in config.$theme-colors {
+    &--#{$type} {
+      background-color: $color;
+    }
+  }
+}
+
+// Text colors
+.bsln-text {
+
+  @each $type, $color in config.$theme-colors {
+    &--#{$type} {
+      color: $color;
+    }
+  }
+}

@@ -1,0 +1,76 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import Nav from '../components/Nav.astro';
+import Header from '../components/Header.astro';
+import Aside from '../components/Aside.astro';
+import Footer from '../components/Footer.astro';
+
+const { frontmatter } = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <BaseHead title={frontmatter.title} description={frontmatter.description} image={frontmatter.background || undefined} />
+
+	<style is:global>
+		.Main ul {
+			padding-bottom: 1em;
+		}
+
+    .Main p {
+      margin-bottom: 1em;
+    }
+
+    .meta-dates {
+      font-family: var(--set-font-mono);
+      font-size: var(--set-font-size-sm);
+    }
+
+    .Main h4, .Main h6 {
+      --heading-underline-color: var(--set-color-base-inverse);
+      position: relative;
+      margin-bottom: 26rem;
+
+      &::after {
+        content: "";
+        display: block;
+        width: 60rem;
+        height: 6rem;
+        background: var(--heading-underline-color);
+        position: absolute;
+        left: 0;
+        bottom: -10rem;
+      }
+    }
+	</style>
+  </head>
+
+  <body>
+    <div class="App">
+      <div class="Layout">
+        <div class="Masthead">
+          <Header />
+        </div>
+        
+        <main class="Main">
+          <Nav />
+
+		  <img src={frontmatter.background} style="height: auto; width: 100%; border-radius: 6rem;" alt={frontmatter.title}> 
+
+          <div class="meta-dates p-b-1">
+            <span><strong>Published:</strong> {frontmatter.pubDate}</span> |
+            <span><strong>Updated:</strong> {frontmatter.updatedDate}</span>
+          </div>
+
+          <slot />
+        </main>
+
+        <div class="Aside">
+          <Aside />
+        </div>
+      </div>
+
+      <Footer />
+    </div>
+  </body>
+</html>

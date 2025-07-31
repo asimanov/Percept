@@ -1,0 +1,105 @@
+/////////////// [TYPOGRAPHY] ///////////////
+
+@use "../config";
+
+// Headings
+// 
+h1 {
+  font-family: var(--set-font-heading);
+  font-size: var(--set-font-size-h1);
+  line-height: 1.2;
+  font-weight: var(--set-font-weight-heavy);
+  margin-bottom: 0.25em; 
+}
+
+h2 { @extend h1; font-size: var(--set-font-size-h2); }
+
+h3 { @extend h1; font-size: var(--set-font-size-h3); }
+
+h4 { @extend h1; font-size: var(--set-font-size-h4); }
+
+h5 { @extend h1; font-size: var(--set-font-size-h5); }
+
+h6 { @extend h1; font-size: var(--set-font-size-h6); }
+
+// Lists
+// 
+ul, ol {
+  li {
+    ul, ol {
+      padding-left: 1em;
+    }
+  }
+}
+
+// Description Lists
+// 
+dl {
+  dt {
+    font-weight: 700;;
+  }
+
+  dd {
+    padding-left: 1em;
+  }
+}
+
+// Quotes
+// 
+blockquote {
+  --bq-font: var(--set-font-serif);
+
+  font-family: var(--bq-font);
+  margin-left: 1em;
+  padding-left: 1.5em;
+  position: relative;
+
+  &::before {
+    content: '';
+    background: var(--set-color-base-tint);
+    position: absolute;
+    width: 1em;
+    top: 0;
+    bottom: 0;
+    left: -1em;
+  }
+
+  > *:first-child {
+    text-indent: -1em;
+    margin-top: 0;
+
+    &::before {
+      content: ' “ ';
+      color: var(--border);
+      font-size: var(--font-large);
+      font-weight: 700;
+    }
+  }
+
+  > *:last-child {
+    margin-bottom: 0;
+  }
+}
+
+cite {
+  --cite-font: var(--set-font-sans);
+
+  font-family: var(--cite-font);
+  font-style: italic;
+  display: inline-block;
+  padding-left: 1em;
+}
+
+// Line break
+// 
+hr {
+  border-top: var(--border-width) dashed var(--border);
+  border-color: var(--set-color-base-tint);
+  width: 100%;
+}
+
+// Code
+// 
+pre {
+  @include config.font-family('mono'); 
+}

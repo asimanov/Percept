@@ -1,0 +1,16 @@
+---
+/* no script directives in here! */
+---
+
+<!-- just pull in the CSS -->
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/baguettebox.js@1.11.1/dist/baguetteBox.min.css"
+/>
+
+<div class="gallery">
+  <slot />
+</div>
+
+<!-- load your init script after the page parses -->
+<script defer src="/assets/product/js/gallery-init.js"></script>

@@ -1,0 +1,310 @@
+/////////////// [CARDS] ///////////////
+
+@use 'config';
+
+// Card
+// 
+.vds-card {
+  --card-bg-body: var(--set-color-white);
+  --card-bg-header: var(--set-color-base-tint);
+  --card-bg-footer: var(--set-color-base-tint);
+  --card-border-radius: 4rem;
+  --card-border-color: var(--set-color-base-tint);
+  --card-font-body: var(--set-font-serif);
+  --card-font-header: var(--set-font-serif);
+  --card-font-title: var(--set-font-serif);
+  --card-font-info: var(--set-font-mono);
+  --card-font-footer: var(--set-font-serif);
+  --card-box-shadow: 0 0 5px rgba(0,0,0,.05),0 0 20px rgba(0,0,0,.1);
+
+  border-radius: var(--card-border-radius);
+  box-shadow: var(--card-box-shadow);
+  background: var(--card-bg-body);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  overflow: hidden;
+
+  &__header {
+    background: var(--card-bg-header);
+    border-radius: var(--card-border-radius) var(--card-border-radius) 0 0;
+    font-family: var(--card-font-header);
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10rem;
+    min-height: 50px;
+
+    &+ .vad-card__img {
+      border-radius: 0;
+    }
+  }
+
+  &__title {
+    font-family: var(--card-font-title);
+    font-weight: 700;
+  }
+
+  &__info {
+    font-family: var(--card-font-info);
+  }
+
+  &__body {
+    background: var(--card-bg-body);
+    font-family: var(--card-font-body);
+    width: 100%;
+    padding: 10rem;
+    background: white;
+  }
+
+  &__footer {
+    background: var(--card-bg-footer);
+    border-radius: 0 0 var(--card-border-radius) var(--card-border-radius);
+    font-family: var(--card-font-footer);
+    width: 100%;
+    min-height: 50px;
+    padding: 10rem;
+    display: flex;
+  }
+
+  &__img {
+    border-radius: var(--card-border-radius) var(--card-border-radius) 0 0;
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  &__img-title {
+    position: relative;
+    background-size: cover;
+    color: white;
+    text-shadow: 2px 2px 0 rgb(0 0 0 / 10%);
+    z-index: 0;
+
+    &::after {
+      content: "";
+      position: absolute;
+      display: block;
+      left: 0;
+      top: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(0deg,rgba(0,0,0,.53) 30%,hsla(0,0%,100%,.27));
+      z-index: 1;
+    }
+
+    div {
+      z-index: 2;
+      position: relative;
+    }
+  }
+
+  &--hr {
+    flex-direction: row;
+    flex-wrap: nowrap;
+
+    .vds-card__header {
+      min-height: auto;
+      flex-direction: column;
+      border-radius: var(--card-border-radius) 0 0 var(--card-border-radius);
+    }
+    
+    .vds-card__footer {
+      min-height: auto;
+      flex-direction: column;
+      border-radius: 0 var(--card-border-radius) var(--card-border-radius) 0;
+
+      a {
+        display: block;
+      }
+    }
+  }
+}
+
+// Card List
+// 
+.vds-card-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  margin-left: -1rem;
+  margin-right: -1rem;
+  padding: 0;
+
+  &__item {
+    list-style-type: none;
+    margin: 0;
+    display: flex;
+    padding: 1rem;
+    padding-bottom: 0;
+
+    @media(min-width: 40rem) {
+      width: 50%;
+      padding-bottom: 1rem;
+    }
+    @media(min-width: 56rem) {
+      width: 33.3333%;
+    }
+  }
+}
+
+// Color Cards
+//
+.rkt-color-card {
+  @include config.font-family('sans');
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  
+  &__info {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-top: none;
+    
+    ul {
+      @include config.font-family('mono');
+      list-style-type: none;
+      margin: 0;
+      padding: 0.5rem;
+      padding-top: 0;
+      
+      li {
+        display: inline-block;
+        width: 100%;
+        color: rgba(0,0,0,0.5);
+        padding-bottom: 0.5em;
+        
+        span {
+          color: black;
+        }
+      }
+    }
+  }
+  
+  &__title {
+    display: flex;
+    padding: 0.5rem;
+    align-items: center;
+  }
+  
+  &__chip {
+    background: rgba(0,0,0,0.2);
+    height: 20px;
+    width: 20px;
+    border-radius: 20px;
+    display: inline-block;
+    margin-right: 16rem;
+    vertical-align: middle;
+  }
+  
+  &__name {
+    font-weight: 700;
+  }
+  
+  &--focus {
+    // background: black;
+  }
+}
+
+// Other Cards
+// 
+// [data-layout='card-groups'] {
+//   margin: var(--gutter) 0;
+// }
+
+// [data-layout='cards'] {
+//   --gap: var(--double-gutter) var(--gutter);
+//   align-items: start;
+//   display: grid;
+//   grid-gap: var(--gap);
+//   grid-template-columns: repeat(auto-fill, minmax(14em, 1fr));
+//   justify-content: space-evenly;
+//   margin: 0 var(--double-gutter);
+//   padding: var(--half-shim) 0 var(--double-gutter);
+
+//   @media (min-width: 55em) {
+//     --gap: var(--spacer) var(--double-gutter);
+//   }
+
+//   @media (min-width: 110em) {
+//     --gap: var(--spacer);
+//   }
+// }
+
+// Groups
+// ------
+
+// [data-card-group] {
+//   display: grid;
+//   grid-template: 'grouper list' auto / auto minmax(0, 1fr);
+//   margin: var(--spacer) 0;
+// }
+
+// [data-cards='grouper'] {
+//   background: var(--ccs-prime--bg2);
+//   font-size: var(--font-small);
+//   grid-area: grouper;
+//   margin: 0;
+//   padding: var(--shim) var(--quarter-shim) var(--gutter);
+//   text-transform: uppercase;
+//   writing-mode: vertical-rl;
+
+//   [data-card-group='soon'] &,
+//   [data-card-group='now'] & {
+//     background: var(--ccs-accent--bg2);
+//   }
+// }
+
+// Items
+// -----
+
+// [data-card='item'] {
+//   --feature: -0.006turn;
+
+//   &:nth-child(3n),
+//   &:nth-last-child(7n-3) {
+//     --feature: 0.006turn;
+//   }
+
+//   &[data-feature] {
+//     background: var(--feature-gradient);
+//     margin: calc(var(--half-shim) * -1);
+//     padding: var(--quarter-shim);
+//   }
+// }
+
+// [data-card='inner'] {
+//   [data-feature] & {
+//     background: var(--bg);
+//     border: 1px solid var(--action);
+//     padding: var(--shim);
+//     transform: rotate(var(--feature, -0.006turn));
+//   }
+// }
+
+// Content
+// -------
+
+// [data-card='title'] {
+//   line-height: var(--rhythm);
+//   margin: 0;
+// }
+
+// [data-meta="card"] {
+//   text-transform: lowercase;
+
+//   time {
+//     font-weight: bold;
+//   }
+// }
+
+// [data-card='summary'] {
+//   display: none;
+// }

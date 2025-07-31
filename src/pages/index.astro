@@ -1,0 +1,348 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Nav from '../components/Nav.astro';
+import Header from '../components/Header.astro';
+import Aside from '../components/Aside.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import { getCollection } from 'astro:content';
+import Gallery from '../components/Gallery.astro';
+
+const posts = (await getCollection('journal')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<style>
+.landing-contact {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+
+	li {
+		a {
+			border: none;
+
+			&:after {
+				display: none;
+			}
+		}
+	}
+}
+
+.percept-container {
+	display: flex;
+	flex-direction: row;
+	gap: 40px;
+}
+
+.percept-rc {
+	width: 20%;
+
+	h6 {
+		/* font-size: calc(6rem + 0.5vw); */
+		word-break: break-all;
+
+		span {
+			display: inline-block;
+		}
+	}
+}
+
+.percept-rc__entry-container {
+	a {
+		border: none;
+	}
+
+	.gallery {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-evenly;
+	}
+}
+
+.percept-rc__entry {
+	width: 100%;
+
+	img {
+		width: 100%;
+		height: auto;
+	}
+}
+
+.percept-journal {
+	width: 80%;
+}
+
+.entry-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.entry {
+  --card-box-shadow: none;
+  border-radius: 6px;
+  box-sizing: border-box;
+  border-bottom: none;
+  background: none;
+  border: 1px solid light-dark(var(--set-color-base-50), var(--set-color-base-950));
+
+  .bsln-card__header,
+  .bsln-card__body {
+	background: none;
+  }
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  h5 {
+	color: var(--set-color-purple);
+  }
+
+  &:hover {
+	color: var(--set-color-purple);
+  }
+}
+
+time {
+	font-family: var(--set-font-mono);
+}
+
+.excerpt {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-wrap: balance;
+}
+
+h5 {
+	text-wrap: pretty;
+}
+
+.entry:first-child {
+  grid-column: 1 / -1; /* Span all columns */
+}
+
+.header h3 {
+	text-wrap: pretty;
+}
+
+@media (max-width: 900px) {
+  .entry-container {
+    gap: 10px;
+  }
+
+  .entry:first-child {
+    grid-column: 1 / -1; /* Ensure it spans all columns on smaller screens as well */
+  }
+}
+
+@media (max-width: 600px) {
+	.percept-rc__entry-container {
+		.gallery {
+			flex-direction: row;
+			justify-content: space-between;
+			flex-wrap: wrap;
+		}
+	}
+
+  .entry-container {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .percept-rc {
+	width: 100%;
+
+	h6 {
+		font-size: var(--set-font-size-h6);
+	}
+  }
+
+  .percept-journal {
+	width: 100%;
+  }
+
+  .percept-container {
+	flex-direction: column;
+	gap: 10px;
+  }
+
+  .percept-rc__entry {
+	max-width: 180px;
+  }
+
+  .entry:first-child {
+    grid-column: 1 / -1; /* Ensure it spans all columns on very small screens as well */
+  }
+}
+</style>
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+
+	<body>
+		<div class="App">
+			<div class="Layout">
+
+				<div class="Masthead">
+					<Header />
+				</div>
+
+				<main class="Main">
+					<Nav />
+
+					<!-- Hi! -->
+					<section>
+						<div class="container">
+							<div class="row">
+								<div class="col-12">
+
+									<header>
+										<div class="p-y-10 m-b-2" style="background: url(/assets/product/images/percept/landing-full-20.jpg) 50% no-repeat; background-size: cover; border-radius: 6rem;">
+											
+											<!-- <img src="/assets/product/images/percept/landing-full-20.jpg" alt="Percept" style="height: auto; width: 100%; border-radius: 6rem;"> -->
+										</div>
+
+										<div class="percept-info">
+											<div class="row">
+
+												<div class="col-xs-12 col-md-6">
+													<div class="bsln-card bsln-card--hr m-b-1">
+												
+														<div class="bsln-card__body">
+														<p class="no-margin">What's all this about? <a href="/colophon">Read More</a></p>
+														</div>
+												
+													</div>
+												</div>
+
+												<div class="col-xs-12 col-md-6">
+													<div class="bsln-card bsln-card--hr m-b-1">
+												
+														<div class="bsln-card__body">
+														<p class="no-margin">I want to learn! <a href="/learn">Read More</a></p>
+														</div>
+												
+													</div>
+												</div>
+
+											</div>
+										</div>
+									</header> 
+							
+								</div>
+							</div>
+					
+						</div>
+					</section> 
+
+					<div class="percept-container">
+
+						<div class="percept-rc">
+							<h6 class="m-t-1">Art</h6>
+
+							<div class="percept-rc__entry-container">
+
+<Gallery>
+	<a class="percept-rc__entry" href="/Media/art/rc/20250704.jpg"
+	   data-post-url="/journal/20250704"
+	>
+		<img
+			src="/Media/art/rc/thumb-20250704.jpg"
+			alt="Percept Reverie Compendium 20250704"
+		/>
+	</a>
+	
+	<a class="percept-rc__entry" href="/Media/art/rc/20250507.jpg"
+	>
+		<img
+			src="/Media/art/rc/thumb-20250507.jpg"
+			alt="Percept Reverie Compendium 20250507"
+		/>
+	</a>
+	
+	<a class="percept-rc__entry" href="/Media/art/rc/20250426.jpg"
+	   data-post-url="/journal/20250429"
+	>
+		<img
+			src="/Media/art/rc/thumb-20250426.jpg"
+			alt="Percept Reverie Compendium 20250426"
+		/>
+	</a>
+
+	<a class="percept-rc__entry" href="/Media/art/rc/20240504.jpg"
+	>
+		<img
+			src="/Media/art/rc/thumb-20240504.jpg"
+			alt="Percept Reverie Compendium 20240504"
+		/>
+	</a>
+</Gallery>
+
+							</div>
+
+						</div>
+
+						<div class="percept-journal">
+							
+							<h6 class="m-t-1">Journal Entries</h6>
+
+							<div class="entry-container">
+				
+								{
+									posts.map((post) => (
+										
+										<a href={`/journal/${post.slug}`} class="entry bsln-card">
+
+											<div class="bsln-card__header">	
+											<p>
+												<time class="font-size--xs">
+													{new Date(post.data.pubDate).toLocaleDateString('en-us', {
+														year: 'numeric',
+														month: 'numeric',
+														day: 'numeric',
+													})}
+												</time>	
+											</p>
+
+											<h5>{post.data.title}</h5>
+											</div>
+
+											<div class="bsln-card__body"><p class="excerpt">{post.data.description}</p></div>
+											
+										</a>
+									))
+								}
+								
+							</div>
+
+						</div>
+
+					</div>
+
+				</main>
+				
+				<div class="Aside">
+					
+					<Aside />
+
+				</div>
+
+			</div>
+
+		<Footer />
+
+		</div>
+	</body>
+</html>

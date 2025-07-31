@@ -1,0 +1,42 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import Nav from '../components/Nav.astro';
+import Header from '../components/Header.astro';
+import Aside from '../components/Aside.astro';
+import Footer from '../components/Footer.astro';
+
+const { title, description, background, pubDate, updatedDate, heroImage } = Astro.props;
+---
+
+<html lang="en">
+	<head>
+		<BaseHead title={title} description={description} image={background || undefined} />
+	</head>
+
+	<body>
+        <div class="App">
+			<div class="Layout">
+
+				<div class="Masthead">
+					<Header />
+				</div>
+
+                <main class="Main">
+					<Nav />
+
+                    <slot />
+                
+                </main>
+
+                <div class="Aside">
+					
+					<Aside />
+
+				</div>
+
+            </div>
+
+            <Footer />
+        </div>
+	</body>
+</html>

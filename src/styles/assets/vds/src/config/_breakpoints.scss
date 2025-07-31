@@ -1,0 +1,61 @@
+/////////////// [BREAKPOINTS] ///////////////
+
+@use 'tools';
+
+$bp-min: (
+  'xs': 320px,
+  'sm': 480px,
+  'md': 768px,
+  'lg': 992px,
+  'xl': 1200px
+);
+
+$bp-max: (
+  'xs': 319.98px,
+  'sm': 479.98px,
+  'md': 767.98px,
+  'lg': 991.98px,
+  'xl': 1199.98px
+);
+
+@mixin breakpoint-min($breakpoint) {
+
+  @if map-has-key($bp-min, $breakpoint) {
+
+    $breakpoint-value: map-get($bp-min, $breakpoint);
+
+    @media (min-width: $breakpoint-value) {
+      @content;
+    }
+  }
+
+}
+
+@mixin breakpoint-max($breakpoint) {
+
+  @if map-has-key($bp-max, $breakpoint) {
+
+    $breakpoint-value: map-get($bp-max, $breakpoint);
+
+    @media (max-width: $breakpoint-value) {
+      @content;
+    }
+  }
+
+}
+
+:root {
+  @include tools.tokens--($bp-min, 'set-bp-min-');
+  @include tools.tokens--($bp-max, 'set-bp-max-');
+}
+
+// Create/assign css custom props from maps and expose
+// 
+// Inserting css custom props into media queries does 
+// not work at the moment.
+// 
+// :root {
+//   @include tools.tokens--($bp-sizing, 'set-bp-');
+// }
+
+// @mixin xs-min { @media (min-width: #{var(--set-bp-xs-min)}) {@content;} }

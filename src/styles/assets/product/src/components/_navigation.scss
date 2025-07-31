@@ -1,0 +1,105 @@
+.navigation {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 300!important;
+    width: 100%;
+    box-shadow: 0 0.5em 0.75em 0 rgba(0,0,0,.05);
+    /* padding: 0.5em 0; */
+    min-height: 45rem;
+}
+
+.navigation__container {
+    z-index: 100;
+    // width: 100%;
+    // padding: 0;
+}
+
+.navigation__title {
+    border: none !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+}
+
+.navigation__title .img {
+    position: relative;
+    top: .2rem;
+    height: 40rem;
+    border: 0;
+}
+
+.navigation__list {
+    display: -ms-grid;
+    display: grid;
+    width: 100%;
+    margin: 0 !important;
+    padding: 0;
+    list-style-type: none;
+    grid-gap: 5px;
+    /* -ms-grid-columns: (minmax(100px,1fr)) [auto-fit];
+    grid-template-columns: repeat(auto-fit,minmax(100px,1fr)); */
+    grid-template-columns: repeat(3,1fr);
+}
+
+.navigation__list li {
+    margin-bottom: 0 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navigation__link {
+    /* --link-color: var(--set-color-white) !important; */
+    color: rgba(255,255,255,.7) !important;
+    display: block;
+    width: 100%;
+    text-align: right;
+    border: none !important;
+    font-family: var(--set-font-mono);
+    font-size: 0.8em;
+    transition: ease-in-out .1s all;
+}
+
+.navigation__link i {
+    font-size: 0.8em;
+    /* color: rgba(255,255,255,.3); */
+    color: var(--set-color-secondary);
+}
+
+.navigation__link:hover {
+    color: rgba(255,255,255,1) !important;
+}
+
+/* .navigation__link:hover i {
+    color: rgba(228, 29, 61, 1) !important;
+} */
+
+.navigation__content {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+}
+
+.navigation__icon-back, .navigation__icon-menu {
+    display: none !important;
+    padding: 1em 0 .5em;
+}
+
+.navigation__newsletter {
+    display: none;
+    width: 100%;
+}
+
+.navigation .page-hint {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    transition: ease-in-out .2s all;
+    opacity: 0;
+    box-shadow: 0 0.25em 0.5em 0 rgba(0,0,0,.05);
+}
