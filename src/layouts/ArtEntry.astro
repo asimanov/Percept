@@ -8,7 +8,7 @@ import Footer from '../components/Footer.astro';
 
 type Props = CollectionEntry<'art'>['data'];
 
-const { title, description, pubDate, updatedDate, author, tags, background } = Astro.props;
+const { title, description, pubDate, updatedDate, author, tags, background, asset, related } = Astro.props;
 ---
 
 <html lang="en">
@@ -16,9 +16,12 @@ const { title, description, pubDate, updatedDate, author, tags, background } = A
 		<BaseHead title={title} description={description} image={background || undefined} />
 
 <style>
-	/* .entry-header {
-		margin-bottom: 2em;
-	} */
+	.entry-header {
+		a {
+			border: none;
+			line-height: 0;
+		}
+	}
 
 	.entry-header__hero {
 		padding: 5em 0;
@@ -110,28 +113,56 @@ const { title, description, pubDate, updatedDate, author, tags, background } = A
 						<Nav />
 						
 						<header class="entry-header">
-
-							<img src={background} style="height: auto; width: 100%; border-radius: 6rem;" alt={title}> 
+							<a href={asset} title={title}>
+								<img
+								src={asset}
+								style="height: auto; width: 100%; border-radius: 6rem;"
+								alt={title}
+								/>
+							</a>
 
 							<div class="meta-dates p-b-1">
-								<span><strong>Published:</strong> {new Date(pubDate).toLocaleDateString('en-us', {
+								<span>
+								<strong>Published:</strong>
+								{new Date(pubDate).toLocaleDateString('en-us', {
 									year: 'numeric',
 									month: 'numeric',
 									day: 'numeric',
-								})}</span> |
+								})}
+								</span>
+								{' | '}
 								{updatedDate && (
-									<span>
-									  <strong>Updated:</strong>
-									  {new Date(updatedDate).toLocaleDateString('en-us', {
-										year: 'numeric',
-										month: 'numeric',
-										day: 'numeric',
-									  })}
-									</span>
+								<span>
+									<strong>Updated:</strong>
+									{new Date(updatedDate).toLocaleDateString('en-us', {
+									year: 'numeric',
+									month: 'numeric',
+									day: 'numeric',
+									})}
+								</span>
 								)}
 							</div>
 
+							{/* only render this section if there’s something to show */}
+							{(description || related) && (
+								<div class="meta-description">
+								{/* only render blockquote if description exists */}
+								{description && (
+									<blockquote>
+									<p>{description}</p>
+									</blockquote>
+								)}
+
+								{/* only render link if related exists */}
+								{related && (
+									<a href={related} title="Related Post">
+									View related material.
+									</a>
+								)}
+								</div>
+							)}
 						</header>
+
 			
 						<div class="post">
 							<section class="section">

@@ -27,6 +27,10 @@ const art = defineCollection({
 		author: z.string().optional(),
 		tags: z.string().optional(),
 		background: z.string().optional(),
+		asset: z.string().optional(),
+		thumb: z.string().optional(),
+		collection: z.string().optional(),
+		related: z.string().optional(),
 	}),
 });
 
