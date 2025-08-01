@@ -3,6 +3,7 @@ layout: '../layouts/Page.astro'
 title: 'Percept: Colophon'
 pubDate: '02/14/2025'
 updatedDate: '07/30/2025'
+author: 'Anton Simanov'
 background: '/assets/product/images/percept/p-bg-01.jpg'
 ---
 

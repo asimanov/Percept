@@ -8,7 +8,7 @@ import Footer from '../components/Footer.astro';
 
 type Props = CollectionEntry<'M43'>['data'];
 
-const { title, description, pubDate, updatedDate, author, tags, background } = Astro.props;
+const { title, description, pubDate, updatedDate, author, background, asset } = Astro.props;
 ---
 
 <html lang="en">
@@ -111,7 +111,7 @@ const { title, description, pubDate, updatedDate, author, tags, background } = A
 						
 						<header class="entry-header">
 
-							<img src={background} style="height: auto; width: 100%; border-radius: 6rem;" alt={title}> 
+							<img src={asset} style="height: auto; width: 100%; border-radius: 6rem;" alt={title}> 
 
 							<div class="meta-dates p-b-1">
 								<span><strong>Published:</strong> {new Date(pubDate).toLocaleDateString('en-us', {
@@ -127,7 +127,11 @@ const { title, description, pubDate, updatedDate, author, tags, background } = A
 										month: 'numeric',
 										day: 'numeric',
 									  })}
-									</span>
+									</span> 
+                                    <span>
+                                        <strong>| Author:</strong>
+                                        {author}
+                                    </span>
 								)}
 							</div>
 

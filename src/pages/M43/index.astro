@@ -1,4 +1,5 @@
 ---
+import type { CollectionEntry } from 'astro:content';
 import BaseHead from '../../components/BaseHead.astro';
 import Nav from '../../components/Nav.astro';
 import Header from '../../components/Header.astro';
@@ -7,21 +8,27 @@ import Footer from '../../components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
 import { getCollection } from 'astro:content';
 
-const posts = (await getCollection('M43')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-);
+// 1️⃣ Fetch & globally sort all posts by pubDate descending
+const sortedPosts: CollectionEntry<'M43'>[] = (
+  await getCollection('M43')
+).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
+// 2️⃣ Build years array in the order they first appear (newest first)
+const years: string[] = [];
+for (const post of sortedPosts) {
+  const yr = new Date(post.data.pubDate).getFullYear().toString();
+  if (!years.includes(yr)) years.push(yr);
+}
 ---
-
 <style>
 .percept-container {
-	display: flex;
-	flex-direction: row;
-	gap: 40px;
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
 }
 
 .percept-journal {
-	width: 100%;
+  width: 100%;
 }
 
 .entry-container {
@@ -36,167 +43,126 @@ const posts = (await getCollection('M43')).sort(
   box-sizing: border-box;
   border-bottom: none;
   background: none;
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 
   h5 {
-	color: var(--set-color-purple);
+    color: var(--set-color-purple);
   }
-
-  &:hover {
-	color: var(--set-color-purple);
-  }
+  &:hover { color: var(--set-color-purple); }
 }
 
-time {
-	font-family: var(--set-font-mono);
-}
-
-.excerpt {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 4;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-wrap: balance;
-}
+time { font-family: var(--set-font-mono); }
 
 h4, h6 {
-	--heading-underline-color: var(--set-color-base-inverse);
-	position: relative;
-	margin-bottom: 26rem;
-	text-wrap: pretty;
+  --heading-underline-color: var(--set-color-base-inverse);
+  position: relative;
+  margin-bottom: 26rem;
+  text-wrap: pretty;
 
-	&::after {
-		content: "";
-		display: block;
-		width: 60rem;
-		height: 6rem;
-		background: var(--heading-underline-color);
-		position: absolute;
-		left: 0;
-		bottom: -10rem;
-	}
+  &::after {
+    content: "";
+    display: block;
+    width: 60rem;
+    height: 6rem;
+    background: var(--heading-underline-color);
+    position: absolute;
+    left: 0;
+    bottom: -10rem;
+  }
 }
 
-h5 {
-	text-wrap: pretty;
-}
-
-.entry:first-child {
-  grid-column: 1 / -1; /* Span all columns */
-}
-
-.header h3 {
-	text-wrap: pretty;
-}
+h5 { text-wrap: pretty; }
+.header h3 { text-wrap: pretty; }
 
 @media (max-width: 900px) {
-  .entry-container {
-    gap: 10px;
-  }
-
-  .entry:first-child {
-    grid-column: 1 / -1; /* Ensure it spans all columns on smaller screens as well */
-  }
+  .entry-container { gap: 10px; }
 }
 
 @media (max-width: 600px) {
-
   .entry-container {
     grid-template-columns: 1fr;
     gap: 10px;
   }
-
   .percept-container {
-	flex-direction: column;
-	gap: 10px;
-  }
-
-  .entry:first-child {
-    grid-column: 1 / -1; /* Ensure it spans all columns on very small screens as well */
+    flex-direction: column;
+    gap: 10px;
   }
 }
 </style>
 
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<div class="App">
-			<div class="Layout">
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+  <body>
+    <div class="App">
+      <div class="Layout">
+        <div class="Masthead"><Header /></div>
 
-				<div class="Masthead">
-					<Header />
-				</div>
+        <main class="Main">
+          <Nav />
 
-				<main class="Main">
-					<Nav />
+          <header>
+            <div
+              class="p-y-6 p-x-2 m-b-2"
+              style="
+                background: url(/assets/product/images/percept/p-bg-02.jpg)
+                  50% no-repeat;
+                background-size: cover;
+                border-radius: 6rem;
+              "
+            ></div>
+          </header>
 
-					<header>
-						<div class="p-y-6 p-x-2 m-b-2" style="background: url(/assets/product/images/percept/p-bg-02.jpg) 50% no-repeat; background-size: cover; border-radius: 6rem;">
-							
-							<!-- <h3 class="m-0 text-align--center bsln-text--white">Percept</h3> -->
-			
-						</div>
-					</header> 
+          <div class="percept-container">
+            <div class="percept-journal">
+              {years.map((year) => (
+                <section>
+                  <h4>{year}</h4>
+                  <div class="entry-container m-b-2">
+                    {sortedPosts
+                      .filter(
+                        (post) =>
+                          new Date(post.data.pubDate).getFullYear().toString() ===
+                          year
+                      )
+                      .map((post) => (
+                        <a href={`/M43/${post.slug}`} class="entry bsln-card">
+                          <div>
+                            <p>
+                              <time class="font-size--xs">
+                                {new Date(post.data.pubDate).toLocaleDateString(
+                                  'en-us',
+                                  {
+                                    year: 'numeric',
+                                    month: 'numeric',
+                                    day: 'numeric',
+                                  }
+                                )}
+                              </time>
+                            </p>
+                            <h5>{post.data.title}</h5>
+                          </div>
+                          <img
+                            src={post.data.thumb}
+                            style="height:auto; width:100%; border-radius:6rem;"
+                            alt={post.data.title}
+                          />
+                        </a>
+                      ))}
+                  </div>
+                </section>
+              ))}
+            </div>
+          </div>
+        </main>
 
-					<div class="percept-container">
-
-						<div class="percept-journal">
-							
-							<h4>M43 Entries</h4>
-
-							<div class="entry-container">
-				
-								{
-									posts.map((post) => (
-										
-										<a href={`/M43/${post.slug}`} class="entry bsln-card">
-
-											<div>	
-											<p>
-												<time class="font-size--xs">
-													{new Date(post.data.pubDate).toLocaleDateString('en-us', {
-														year: 'numeric',
-														month: 'numeric',
-														day: 'numeric',
-													})}
-												</time>	
-											</p>
-
-											<h5>{post.data.title}</h5>
-											</div>
-
-											<div><p class="excerpt">{post.data.description}</p></div>
-											
-										</a>
-									))
-								}
-								
-							</div>
-
-						</div>
-
-					</div>
-
-				</main>
-				
-				<div class="Aside">
-					
-					<Aside />
-
-				</div>
-
-			</div>
-
-		<Footer />
-
-		</div>
-
-	</body>
+        <div class="Aside"><Aside /></div>
+      </div>
+      <Footer />
+    </div>
+  </body>
 </html>

@@ -59,7 +59,8 @@ const { frontmatter } = Astro.props;
 
           <div class="meta-dates p-b-1">
             <span><strong>Published:</strong> {frontmatter.pubDate}</span> |
-            <span><strong>Updated:</strong> {frontmatter.updatedDate}</span>
+            <span><strong>Updated:</strong> {frontmatter.updatedDate}</span> |
+            <span><strong>Author:</strong> {frontmatter.author}</span>
           </div>
 
           <slot />

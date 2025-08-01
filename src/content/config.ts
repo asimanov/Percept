@@ -59,8 +59,10 @@ const M43 = defineCollection({
 		pubDate: z.coerce.date(),
 		updatedDate: z.coerce.date().optional(),
 		author: z.string().optional(),
-		tags: z.string().optional(),
 		background: z.string().optional(),
+		asset: z.string().optional(),
+		thumb: z.string().optional(),
+		related: z.string().optional(),
 	}),
 });
 
