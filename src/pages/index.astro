@@ -11,6 +11,10 @@ import Gallery from '../components/Gallery.astro';
 const posts = (await getCollection('journal')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
+
+const artPosts = (await getCollection('art'))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 4);
 ---
 
 <style>
@@ -123,6 +127,7 @@ time {
 }
 
 h5 {
+	--set-font-size-h5: calc(14rem + 0.25vw);
 	text-wrap: pretty;
 }
 
@@ -254,7 +259,22 @@ h5 {
 
 							<div class="percept-rc__entry-container">
 
-<Gallery>
+								<Gallery>
+									{artPosts.map((post) => (
+									<a
+										class="percept-rc__entry"
+										href={post.data.asset}             
+										data-post-url={post.data.related} 
+									>
+										<img
+										src={post.data.thumb}       
+										alt={post.data.title || post.slug}
+										/>
+									</a>
+									))}
+								</Gallery>
+
+<!-- <Gallery>
 	<a class="percept-rc__entry" href="/Media/art/reveriecompendium/20250704.jpg"
 	   data-post-url="/journal/20250704"
 	>
@@ -288,7 +308,7 @@ h5 {
 			alt="Percept Reverie Compendium 20240504"
 		/>
 	</a>
-</Gallery>
+</Gallery> -->
 
 							</div>
 
@@ -305,21 +325,19 @@ h5 {
 										
 										<a href={`/journal/${post.slug}`} class="entry bsln-card">
 
-											<div class="bsln-card__header">	
-											<p>
-												<time class="font-size--xs">
-													{new Date(post.data.pubDate).toLocaleDateString('en-us', {
-														year: 'numeric',
-														month: 'numeric',
-														day: 'numeric',
-													})}
-												</time>	
-											</p>
-
-											<h5>{post.data.title}</h5>
+											<div class="bsln-card__body">
+												<p>
+													<time class="font-size--xs">
+														{new Date(post.data.pubDate).toLocaleDateString('en-us', {
+															year: 'numeric',
+															month: 'numeric',
+															day: 'numeric',
+														})}
+													</time>	
+												</p>
+												<h5>{post.data.title}</h5>
+												<p class="excerpt">{post.data.description}</p>
 											</div>
-
-											<div class="bsln-card__body"><p class="excerpt">{post.data.description}</p></div>
 											
 										</a>
 									))

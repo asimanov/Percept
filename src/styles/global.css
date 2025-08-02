@@ -1,51 +1,3 @@
-/* body {
-	background: rgb(16, 15, 15);
-} */
-
-/* .aside-nav nav {
-	--aside-nav-bg: rgb(16, 15, 15);
-	--aside-nav-border-color: var(--set-color-base-light);
-} */
-
-/* .vds-card {
-	--card-bg-body: var(--set-color-base-tint);
-	--card-box-shadow: 0 0 5px rgba(0,0,0,0.05),0 0 20px rgba(0,0,0,0.5);
-
-	.vds-card__body {
-		background: var(--set-color-base-tint);
-	}
-} */
-
-/* .entry__img {
-	img {
-		width: 35%;
-	}
-} */
-
-/* .landing-card {
-	.vds-card__footer {
-		background: var(--set-color-base-light);
-	}
-
-	img {
-		width: 35%;
-	}
-
-	p {
-		font-family: var(--set-font-serif);
-	}
-} */
-
-/* .footer-note,
-.footer-note-contact {
-	background: black;
-	color: var(--set-color-base);
-
-	a {
-		color: inherit;
-	}
-} */
-
 a, a:link, a:visited {
   --link-style-color: var(--set-color-purple);
   -webkit-transform: translate3d(0, 0, 0);
@@ -61,10 +13,6 @@ ul {
     }
   }
 }
-
-/* p {
-  text-wrap: balance;
-} */
 
 h1, h2, h3, h4, h5, h6 {
   text-wrap: pretty;
@@ -82,7 +30,8 @@ pre > code {
 }
 
 ::selection {
-	background: #205EA6;
+	background: light-dark(var(--set-color-dark-purple), var(--set-color-light-purple));
+  color: light-dark(white, white);
 }
 
 /* Layout */

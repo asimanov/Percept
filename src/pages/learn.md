@@ -4,6 +4,7 @@ title: 'Percept: Learn'
 pubDate: '02/14/2025'
 updatedDate: '07/02/2025'
 background: '/assets/product/images/percept/p-bg-04.jpg'
+author: 'Anton Simanov'
 ---
 
 #### Itzhak Bentov
