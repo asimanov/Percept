@@ -36,6 +36,12 @@ const posts = (await getCollection('journal')).sort(
   box-sizing: border-box;
   border-bottom: none;
   background: none;
+  border: 1px solid light-dark(var(--set-color-base-50), var(--set-color-base-950));
+
+  .bsln-card__header,
+  .bsln-card__body {
+	background: none;
+  }
 
   display: flex;
   flex-direction: column;
@@ -82,6 +88,7 @@ h4, h6 {
 }
 
 h5 {
+	--set-font-size-h5: calc(14rem + 0.25vw);
 	text-wrap: pretty;
 }
 
@@ -151,14 +158,14 @@ h5 {
 							
 							<h4>Journal Entries</h4>
 
-							<div class="entry-container m-b-4">
+							<div class="entry-container">
 				
 								{
 									posts.map((post) => (
 										
 										<a href={`/journal/${post.slug}`} class="entry bsln-card">
 
-											<div>	
+											<div class="bsln-card__body">	
 											<p>
 												<time class="font-size--xs">
 													{new Date(post.data.pubDate).toLocaleDateString('en-us', {
@@ -170,9 +177,9 @@ h5 {
 											</p>
 
 											<h5>{post.data.title}</h5>
+											
+											<p class="excerpt">{post.data.description}</p>
 											</div>
-
-											<div><p class="excerpt">{post.data.description}</p></div>
 											
 										</a>
 									))
