@@ -1,0 +1,50 @@
+---
+const action = "/api/newsletter";
+---
+
+<div class="bsln-form-container">
+  <form method="post" action={action} id="newsletter-form" novalidate>
+    <div>
+      <label for="n-email">Email</label>
+      <input id="n-email" name="email" type="email" required />
+    </div>
+
+    <!-- Honeypot -->
+    <input type="text" name="website" aria-hidden="true" tabindex="-1" style="display:none" />
+
+    <button type="submit">Subscribe</button>
+
+    <p id="newsletter-status" role="status" aria-live="polite" style="margin-top:.5rem;"></p>
+  </form>
+</div>
+
+<script>
+  const form = document.getElementById('newsletter-form') as HTMLFormElement | null;
+  const statusEl = document.getElementById('newsletter-status') as HTMLParagraphElement | null;
+
+  if (!form || !statusEl) {
+    // Skip enhancement
+  } else {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      statusEl.textContent = 'Submitting…';
+
+      const fd = new FormData(form);
+      const action = form.action || '/api/newsletter';
+      const base = location.hostname === 'localhost' ? 'https://perceptindex.com' : '';
+
+      try {
+        const res = await fetch(base + action, { method: 'POST', body: fd });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && data.ok) {
+          statusEl.textContent = data.dryRun ? 'Received (dry run).' : 'Subscribed! Check your email.';
+          form.reset();
+        } else {
+          statusEl.textContent = data?.error || 'Something went wrong.';
+        }
+      } catch {
+        statusEl.textContent = 'Network error.';
+      }
+    });
+  }
+</script>

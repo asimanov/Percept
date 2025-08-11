@@ -1,0 +1,9 @@
+name = "percept-email"
+main = "src/index.js"
+compatibility_date = "2025-08-10"   # use today’s date if you want
+
+# Email sending binding. Lock to a single destination, or
+# delete destination_address to allow any verified destination.
+send_email = [
+  { name = "SEB", destination_address = "perceptindex@gmail.com" }
+]

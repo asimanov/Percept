@@ -1,10 +1,71 @@
 ---
-const action = "/api/contact";
+const action = '/api/contact';
 ---
-<form method="post" action={action} class="contact-form" style="display:grid;gap:0.75rem;max-width:500px">
-  <input type="text" name="name" placeholder="Name" required />
-  <input type="email" name="email" placeholder="Email" required />
-  <textarea name="message" placeholder="Message" required rows="5"></textarea>
-  <input type="text" name="website" style="display:none" tabindex="-1" autocomplete="off" />
-  <button type="submit">Send</button>
-</form>
+
+<div class="bsln-form-container">
+  <form method="post" action={action} id="contact-form" novalidate>
+
+    <div class="row">
+      <div class="col-xs-12 col-md-6 p-y-1">
+        <div class="bsln-input-container">
+          <input id="c-name" name="name" type="text" class="bsln-input" required />
+          <label for="c-name" class="bsln-label">Name</label>
+        </div>
+      </div>
+
+      <div class="col-xs-12 col-md-6 p-y-1">
+        <div class="bsln-input-container">
+          <input id="c-email" name="email" type="email" class="bsln-input" required />
+          <label for="c-email" class="bsln-label">Email</label>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-12 p-y-1">
+
+        <div class="bsln-textarea-container">
+          <textarea id="c-message" name="message" rows="5" class="bsln-textarea" required></textarea>
+          <label for="c-message" class="bsln-label">Message</label>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Honeypot (hide in CSS) -->
+    <input type="text" name="website" aria-hidden="true" tabindex="-1" style="display:none" />
+
+    <button type="submit" class="bsln-button block-sm">Send</button>
+
+    <p id="contact-status" role="status" aria-live="polite" style="margin-top:.5rem;"></p>
+  </form>
+</div>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  const statusEl = document.getElementById('contact-status') as HTMLParagraphElement | null;
+
+  if (form && statusEl) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      statusEl.textContent = 'Sending…';
+
+      const fd = new FormData(form);
+      const target = form.action; // relative on dev (404 expected), same-origin on prod
+
+      try {
+        const res = await fetch(target, { method: 'POST', body: fd });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && data.ok) {
+          statusEl.textContent = data.dryRun ? 'Received (dry run).' : 'Sent. Thank you!';
+          form.reset();
+        } else {
+          statusEl.textContent = data?.error || 'Something went wrong.';
+        }
+      } catch {
+        statusEl.textContent = 'Network error.';
+      }
+    });
+  }
+</script>
