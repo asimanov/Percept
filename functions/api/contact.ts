@@ -49,11 +49,11 @@ async function verifyTurnstile(secret?: string, token?: string) {
 
 // ---- Providers ----
 
-async function sendWithCfEmail(env: Env, subject: string, text: string) {
+async function sendWithCfEmail(env: Env, subject: string, text: string, replyTo?: string) {
   if (!env.EMAILER_URL || !env.EMAILER_TOKEN) throw new Error("Missing EMAILER_URL/EMAILER_TOKEN");
   if (!env.CONTACT_TO || !env.CONTACT_FROM) throw new Error("Missing CONTACT_TO/CONTACT_FROM");
-
-  const payload = { from: env.CONTACT_FROM, to: env.CONTACT_TO, subject, text };
+  const payload: any = { from: env.CONTACT_FROM, to: env.CONTACT_TO, subject, text };
+  if (replyTo) payload.replyTo = replyTo;
 
   const res = await fetch(env.EMAILER_URL, {
     method: "POST",
@@ -128,7 +128,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     const provider = (env.CONTACT_PROVIDER ?? "").trim().toLowerCase();
     if (!provider) return new Response(JSON.stringify({ ok: true, dryRun: true }), { status: 200 });
 
-    if (provider === "cf-email") await sendWithCfEmail(env, subject, text);
+    if (provider === "cf-email") await sendWithCfEmail(env, subject, text, email);
     else if (provider === "sendgrid") await sendWithSendGrid(env, subject, text);
     else if (provider === "mailgun") await sendWithMailgun(env, subject, text);
     else return new Response(JSON.stringify({ ok: true, dryRun: true, note: "Unknown CONTACT_PROVIDER" }), { status: 200 });
