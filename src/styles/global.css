@@ -131,3 +131,16 @@ pre > code {
         grid-template-columns:auto var(--page-margin)calc(40% - var(--page-margin))
     }
 }
+
+/* Font Overrides */
+.bsln-card {
+    --card-font-body: var(--set-font-sans);
+    --card-font-header: var(--set-font-sans);
+    --card-font-title: var(--set-font-sans);
+    --card-font-info: var(--set-font-mono);
+    --card-font-footer: var(--set-font-sans);
+}
+
+blockquote {
+    --bq-font: var(--set-font-sans);
+}

@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://antonsimanov.com',
+	site: 'https://perceptindex.com',
 	integrations: [mdx(), sitemap()],
 	trailingSlash: 'ignore', // Options: 'always', 'never', or 'ignore'
 });

@@ -7,9 +7,10 @@ author: 'Anton Simanov'
 background: '/assets/product/images/percept/p-bg-01.jpg'
 ---
 
-#### Colophon
+### Colophon
 
-##### Percept - /pûr′sĕpt″/
+<span class="font-family--mono font-size--md"><strong>Percept - /pûr′sĕpt″/</strong></span>
+
 > a mental concept that is developed as a consequence of the process of perception.
 
 A little while back I started to journal my more memorable meditation sessions. Not only was recording the insights and situations useful for future sessions but it was also a more in-depth exploration of my own progress. 

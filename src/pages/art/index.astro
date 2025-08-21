@@ -94,6 +94,23 @@ time {
   text-wrap: balance;
 }
 
+h3 {
+  --heading-underline-color: light-dark(var(--set-color-dark-purple),var(--set-color-light-purple));
+  position: relative;
+  margin-bottom: 26rem;
+
+  &::after {
+    content: "";
+    display: block;
+    width: 60rem;
+    height: 6rem;
+    background: var(--heading-underline-color);
+    position: absolute;
+    left: 0;
+    bottom: -10rem;
+  }
+}
+
 h4, h6 {
   --heading-underline-color: var(--set-color-base-inverse);
   position: relative;
@@ -170,7 +187,7 @@ h5 {
             <div class="percept-journal">
               {collections.map((colName: string) => (
                 <>
-                  <h4>{colName}</h4>
+                  <h3>{colName}</h3>
                   <div class="entry-container m-b-4">
                     {grouped[colName]
                       .sort(

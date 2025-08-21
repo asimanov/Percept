@@ -29,9 +29,11 @@ function addShakeAnimation(icon) {
 }
 
 function cssPropWrite() {  
-    document.documentElement.style.setProperty('--add-font-sans', 'Archivo Black');
-    document.documentElement.style.setProperty('--add-font-serif', 'PT Sans');
-    document.documentElement.style.setProperty('--add-font-mono', 'Cousine');
+    document.documentElement.style.setProperty('--add-font-sans', 'DM Sans');
+    document.documentElement.style.setProperty('--add-font-serif', 'DM Serif Display');
+    document.documentElement.style.setProperty('--add-font-mono', 'DM Mono');
+    document.documentElement.style.setProperty('--set-font-body', 'var(--set-font-sans)');
+    document.documentElement.style.setProperty('--set-font-heading', 'var(--set-font-serif)');
     document.documentElement.style.setProperty('--set-color-primary', 'var(--set-color-cyan)');
     document.documentElement.style.setProperty('--set-color-secondary', 'var(--set-color-red)');
 }
