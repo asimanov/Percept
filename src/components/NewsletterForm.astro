@@ -7,9 +7,11 @@
     method="post"
     class="newsletter-form"
   >
+  <legend class="bsln-legend">Newsletter <i class="fa-light fa-mailbox"></i></legend>
 
     <div class="row">
       <div class="col-xs-12 col-md-8 p-y-1">
+
         <div class="bsln-input-container">
           <input
             type="email"
@@ -46,5 +48,15 @@
   .bsln-form-container span {
     font-family: var(--set-font-mono);
     font-size: 0.8em;
+  }
+
+  .bsln-legend {
+    position: absolute;
+    top: -1.2em;
+    background: light-dark(var(--set-color-base-white),var(--set-color-base-black));
+  }
+
+  form, button {
+    font-family: var(--set-font-mono) !important;
   }
 </style>
