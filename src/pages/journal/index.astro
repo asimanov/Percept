@@ -36,16 +36,35 @@ const posts = (await getCollection('journal')).sort(
   box-sizing: border-box;
   border-bottom: none;
   background: none;
-  border: 1px solid light-dark(var(--set-color-base-50), var(--set-color-base-950));
+  border: 1px solid light-dark(var(--set-color-base-150),var(--set-color-base-900));
+  border-radius: 0;
+  position: relative;
+  overflow: visible;
 
   .bsln-card__header,
   .bsln-card__body {
 	background: none;
   }
 
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  .bsln-card__body {
+	padding-top: 16rem;
+  }
+
+  .meta {
+	display: block;
+	position: absolute;
+	top: -12rem;
+	background: var(--set-color-base);
+	border: 1px solid light-dark(var(--set-color-base-150),var(--set-color-base-900));
+	padding: 4rem 6rem;
+	height: 22rem;
+
+	time {
+		display: block;
+		line-height: 13rem;
+		font-family: var(--set-font-mono);
+	}
+  }
 
   h5 {
 	color: var(--set-color-purple);
@@ -54,10 +73,6 @@ const posts = (await getCollection('journal')).sort(
   &:hover {
 	color: var(--set-color-purple);
   }
-}
-
-time {
-	font-family: var(--set-font-mono);
 }
 
 .excerpt {
@@ -119,7 +134,7 @@ h5 {
 
 @media (max-width: 900px) {
   .entry-container {
-    gap: 10px;
+    gap: 20px;
   }
 
   .entry:first-child {
@@ -131,12 +146,12 @@ h5 {
 
   .entry-container {
     grid-template-columns: 1fr;
-    gap: 10px;
+    gap: 20px;
   }
 
   .percept-container {
 	flex-direction: column;
-	gap: 10px;
+	gap: 20px;
   }
 
   .entry:first-child {
@@ -175,7 +190,7 @@ h5 {
 							
 							<h3>Journal Entries</h3>
 
-							<div class="entry-container">
+							<div class="entry-container m-t-2">
 				
 								{
 									posts.map((post) => (
@@ -183,7 +198,7 @@ h5 {
 										<a href={`/journal/${post.slug}`} class="entry bsln-card">
 
 											<div class="bsln-card__body">	
-											<p>
+											<p class="meta">
 												<time class="font-size--xs">
 													{new Date(post.data.pubDate).toLocaleDateString('en-us', {
 														year: 'numeric',

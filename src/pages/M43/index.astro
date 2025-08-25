@@ -43,14 +43,48 @@ for (const post of sortedPosts) {
   box-sizing: border-box;
   border-bottom: none;
   background: none;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  border: 1px solid light-dark(var(--set-color-base-150),var(--set-color-base-900));
+  border-radius: 0;
+  position: relative;
+  overflow: visible;
+
+  .bsln-card__header,
+  .bsln-card__body {
+	  background: none !important;
+  }
+
+  .bsln-card__body {
+	  padding-top: 16rem;
+    padding-bottom: 0;
+  }
+
+  .meta {
+    display: block;
+    position: absolute;
+    top: -12rem;
+    background: var(--set-color-base);
+    border: 1px solid light-dark(var(--set-color-base-150),var(--set-color-base-900));
+    padding: 4rem 6rem;
+    height: 22rem;
+
+    time {
+      display: block;
+      line-height: 13rem;
+      font-family: var(--set-font-mono);
+    }
+
+    /* img {
+      border-radius: 0;
+    } */
+  }
 
   h5 {
-    color: var(--set-color-purple);
+	  color: var(--set-color-purple);
   }
-  &:hover { color: var(--set-color-purple); }
+
+  &:hover {
+	  color: var(--set-color-purple);
+  }
 }
 
 time { font-family: var(--set-font-mono); }
@@ -94,17 +128,17 @@ h5 { text-wrap: pretty; }
 .header h3 { text-wrap: pretty; }
 
 @media (max-width: 900px) {
-  .entry-container { gap: 10px; }
+  .entry-container { gap: 20px; }
 }
 
 @media (max-width: 600px) {
   .entry-container {
     grid-template-columns: 1fr;
-    gap: 10px;
+    gap: 20px;
   }
   .percept-container {
     flex-direction: column;
-    gap: 10px;
+    gap: 20px;
   }
 }
 </style>
@@ -139,7 +173,7 @@ h5 { text-wrap: pretty; }
               {years.map((year) => (
                 <section>
                   <h3>{year}</h3>
-                  <div class="entry-container m-b-4">
+                  <div class="entry-container m-t-2 m-b-4">
                     {sortedPosts
                       .filter(
                         (post) =>
@@ -148,8 +182,8 @@ h5 { text-wrap: pretty; }
                       )
                       .map((post) => (
                         <a href={`/M43/${post.slug}`} class="entry bsln-card">
-                          <div>
-                            <p>
+                          <div class="bsln-card__body">
+                            <p class="meta">
                               <time class="font-size--xs">
                                 {new Date(post.data.pubDate).toLocaleDateString(
                                   'en-us',
@@ -162,12 +196,12 @@ h5 { text-wrap: pretty; }
                               </time>
                             </p>
                             <h5>{post.data.title}</h5>
-                          </div>
-                          <img
+                            <img
                             src={post.data.thumb}
-                            style="height:auto; width:100%; border-radius:6rem;"
+                            style="height:auto; width:100%;"
                             alt={post.data.title}
-                          />
+                            />
+                          </div>
                         </a>
                       ))}
                   </div>

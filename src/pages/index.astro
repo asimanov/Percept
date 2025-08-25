@@ -57,10 +57,6 @@ const artPosts = (await getCollection('art'))
 }
 
 .percept-rc__entry-container {
-	a {
-		border: none;
-	}
-
 	.gallery {
 		display: flex;
 		flex-direction: column;
@@ -70,10 +66,15 @@ const artPosts = (await getCollection('art'))
 
 .percept-rc__entry {
 	width: 100%;
+	margin-bottom: 20rem;
 
 	img {
 		width: 100%;
 		height: auto;
+	}
+
+	.bsln-card__body {
+		padding-bottom: 0;
 	}
 }
 
@@ -87,22 +88,41 @@ const artPosts = (await getCollection('art'))
   gap: 20px;
 }
 
-.entry {
+.entry, .percept-rc__entry {
   --card-box-shadow: none;
   border-radius: 6px;
   box-sizing: border-box;
   border-bottom: none;
   background: none;
-  border: 1px solid light-dark(var(--set-color-base-50), var(--set-color-base-950));
+  border: 1px solid light-dark(var(--set-color-base-150),var(--set-color-base-900));
+  border-radius: 0;
+  position: relative;
+  overflow: visible;
 
   .bsln-card__header,
   .bsln-card__body {
 	background: none;
   }
 
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  .bsln-card__body {
+	padding-top: 16rem;
+  }
+
+  .meta {
+	display: block;
+	position: absolute;
+	top: -12rem;
+	background: var(--set-color-base);
+	border: 1px solid light-dark(var(--set-color-base-150),var(--set-color-base-900));
+	padding: 4rem 6rem;
+	height: 22rem;
+
+		time {
+			display: block;
+			line-height: 13rem;
+			font-family: var(--set-font-mono);
+		}
+	}
 
   h5 {
 	color: var(--set-color-purple);
@@ -111,10 +131,6 @@ const artPosts = (await getCollection('art'))
   &:hover {
 	color: var(--set-color-purple);
   }
-}
-
-time {
-	font-family: var(--set-font-mono);
 }
 
 .excerpt {
@@ -141,12 +157,16 @@ h5 {
 
 @media (max-width: 900px) {
   .entry-container {
-    gap: 10px;
+    gap: 20px;
   }
 
   .entry:first-child {
     grid-column: 1 / -1; /* Ensure it spans all columns on smaller screens as well */
   }
+
+  /* .percept-rc__entry .bsln-card__body .meta time {
+	font-size: 0.6em;
+  } */
 }
 
 @media (max-width: 600px) {
@@ -160,7 +180,7 @@ h5 {
 
   .entry-container {
     grid-template-columns: 1fr;
-    gap: 10px;
+    gap: 20px;
   }
 
   .percept-rc {
@@ -177,7 +197,7 @@ h5 {
 
   .percept-container {
 	flex-direction: column;
-	gap: 10px;
+	gap: 20px;
   }
 
   .percept-rc__entry {
@@ -226,7 +246,7 @@ h5 {
 													<div class="bsln-card bsln-card--hr m-b-1">
 												
 														<div class="bsln-card__body">
-														<p class="no-margin">What's all this about? <a href="/colophon">Read More</a></p>
+														<p class="no-margin"><i class="fa-sharp fa-light fa-clipboard-question"></i> What's all this about? <a href="/colophon">Read More</a></p>
 														</div>
 												
 													</div>
@@ -236,7 +256,7 @@ h5 {
 													<div class="bsln-card bsln-card--hr m-b-1">
 												
 														<div class="bsln-card__body">
-														<p class="no-margin">I want to learn! <a href="/learn">Read More</a></p>
+														<p class="no-margin"><i class="fa-sharp fa-light fa-head-side-gear"></i> I want to learn! <a href="/learn">Read More</a></p>
 														</div>
 												
 													</div>
@@ -255,26 +275,43 @@ h5 {
 					<div class="percept-container">
 
 						<div class="percept-rc">
-							<h6 class="m-t-1">Art</h6>
+							<h6 class="m-t-1 m-b-2">Art</h6>
 
 							<div class="percept-rc__entry-container">
 
 								<Gallery>
 									{artPosts.map((post) => (
 									<a
-										class="percept-rc__entry"
+										class="percept-rc__entry bsln-card"
 										href={post.data.asset}             
 										data-post-url={post.data.related} 
 									>
+										<div class="bsln-card__body">
+											<p class="meta">
+												<time class="font-size--xs">
+													<i class="fa-sharp fa-light fa-calendar"></i>
+
+													{new Date(post.data.pubDate).toLocaleDateString('en-us', {
+														year: 'numeric',
+														month: 'numeric',
+														day: 'numeric',
+													})}
+												</time>	
+											</p>
 										<img
 										src={post.data.thumb}       
 										alt={post.data.title || post.slug}
 										/>
+										</div>
 									</a>
 									))}
 								</Gallery>
 
-								<a href="/art" title="Art Entries">View More</a>
+								<a class="percept-rc__entry bsln-card" href="/art" title="Art Entries">
+									<div class="bsln-card__body text-align--center" style="padding-bottom: 10rem;">
+										<span><i class="fa-sharp fa-light fa-arrows-to-eye fa-2xl"></i></span>
+									</div>
+								</a>
 
 							</div>
 
@@ -282,7 +319,7 @@ h5 {
 
 						<div class="percept-journal">
 							
-							<h6 class="m-t-1">Journal Entries</h6>
+							<h6 class="m-t-1 m-b-2">Journal Entries</h6>
 
 							<div class="entry-container">
 				
@@ -292,8 +329,10 @@ h5 {
 										<a href={`/journal/${post.slug}`} class="entry bsln-card">
 
 											<div class="bsln-card__body">
-												<p>
+												<p class="meta">
 													<time class="font-size--xs">
+														<i class="fa-sharp fa-light fa-calendar"></i>
+
 														{new Date(post.data.pubDate).toLocaleDateString('en-us', {
 															year: 'numeric',
 															month: 'numeric',
