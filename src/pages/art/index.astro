@@ -59,7 +59,7 @@ const collections: string[] = [
 .entry-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
+  gap: 40px;
 }
 
 .entry {
@@ -166,14 +166,14 @@ h5 {
 
 @media (max-width: 900px) {
   .entry-container {
-    gap: 20px;
+    gap: 40px;
   }
 }
 
 @media (max-width: 600px) {
   .entry-container {
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 40px;
   }
   .percept-container {
     flex-direction: column;
@@ -215,7 +215,7 @@ h5 {
               {collections.map((colName: string) => (
                 <>
                   <h3>{colName}</h3>
-                  <div class="entry-container m-t-2 m-b-4">
+                  <div class="entry-container m-t-2 m-b-2">
                     {grouped[colName]
                       .sort(
                         (a: CollectionEntry<'art'>, b: CollectionEntry<'art'>) =>
