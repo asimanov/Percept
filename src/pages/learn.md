@@ -12,6 +12,10 @@ author: 'Anton Simanov'
 - [Stalking the Wild Pendulum: On the Mechanics of Consciousness](https://a.co/d/e0x5we1 "Stalking the Wild Pendulum: On the Mechanics of Consciousness")
 - [A Brief Tour of Higher Consciousness: A Cosmic Book on the Mechanics of Creations](https://a.co/d/ewyHdq6 "A Brief Tour of Higher Consciousness: A Cosmic Book on the Mechanics of Creation")
 
+#### Eric Wargo
+
+- [Time Loops: Precognition, Retrocausation, and the Unconscious](https://a.co/d/geebHsi "Time Loops: Precognition, Retrocausation, and the Unconscious")
+
 #### Michael Talbot
 
 - [The Holographic Universe: The Revolutionary Theory of Reality](https://a.co/d/001Bo7v "The Holographic Universe: The Revolutionary Theory of Reality")
@@ -32,6 +36,14 @@ author: 'Anton Simanov'
 
 - [Out of This World: Thinking Fourth-Dimensionally](https://a.co/d/d0HQrya "Out of This World: Thinking Fourth-Dimensionally")
 - [The Neville Goddard Deluxe Collection: All 14 Books By A New Thought Pioneer](https://a.co/d/aOTmef7 "The Neville Goddard Deluxe Collection: All 14 Books By A New Thought Pioneer")
+
+#### Robert Peterson
+
+- [Out-of-Body Experiences: How to Have Them and What to Expect](https://a.co/d/2vxkoXy "Out-of-Body Experiences: How to Have Them and What to Expect")
+
+#### Russell Targ
+
+- [Limitless Mind: A Guide to Remote Viewing and Transformation of Consciousness](https://a.co/d/5uWLKuR "Limitless Mind: A Guide to Remote Viewing and Transformation of Consciousness")
 
 #### Ingo Swann
 
