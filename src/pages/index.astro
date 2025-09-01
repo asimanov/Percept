@@ -8,9 +8,9 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 import { getCollection } from 'astro:content';
 import Gallery from '../components/Gallery.astro';
 
-const posts = (await getCollection('journal')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-);
+const posts = (await getCollection('journal'))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 10);
 
 const artPosts = (await getCollection('art'))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
@@ -307,8 +307,8 @@ h5 {
 									))}
 								</Gallery>
 
-								<a class="percept-rc__entry bsln-card" href="/art" title="Art Entries">
-									<div class="bsln-card__body text-align--center" style="padding-bottom: 10rem;">
+								<a class="percept-rc__entry bsln-card" href="/art" title="Art Entries" style="min-height: 150rem; display: flex; align-items: center;justify-content: center;">
+									<div class="bsln-card__body text-align--center" style="padding: 0;">
 										<span><i class="fa-sharp fa-light fa-arrows-to-eye fa-2xl"></i></span>
 									</div>
 								</a>
@@ -347,6 +347,12 @@ h5 {
 										</a>
 									))
 								}
+
+								<a class="entry bsln-card" href="/journal" title="Art Entries" style="min-height: 150rem; display: flex; align-items: center;justify-content: center;">
+									<div class="bsln-card__body text-align--center" style="padding: 0;">
+										<span><i class="fa-sharp fa-light fa-arrows-to-eye fa-2xl"></i></span>
+									</div>
+								</a>
 								
 							</div>
 
