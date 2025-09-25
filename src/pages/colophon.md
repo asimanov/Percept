@@ -30,3 +30,6 @@ The truth is, your subjective experiences are very much objectively not unique. 
 Imagine a world where everyone can read everyone else's thoughts. Imagine how quickly the quality of our collective consciousness improves in a situation like that. 
 
 ***Lastly, no one can classify consciousness and force you to believe that your experiences are invalid.*** 
+
+Thank you for your time,<br>
+[Anton Simanov](/antonsimanov "Anton Simanov")
