@@ -7,12 +7,7 @@ import HeaderLink from './HeaderLink.astro';
 	display: flex;
 	flex-direction: row;
 	width: 250rem;
-	/* background: var(--set-color-base-black); */
-	/* padding: 10rem; */
 	margin-bottom: 32rem;
-	/* border-radius: 0 0 12rem 12rem; */
-	/* border: 4rem solid light-dark(transparent, var(--set-color-base-900)); */
-	/* border-top: 0; */
 
 	@media (max-width: 900px) {
 		margin-bottom: 0;
@@ -22,7 +17,6 @@ import HeaderLink from './HeaderLink.astro';
 .header-logo-link {
     background-size: contain;
     background-repeat: no-repeat;
-	/* background-image: url('/assets/product/images/asim-dark.svg'); */
 }
 
 html.light-mode .header-logo-link {
@@ -46,6 +40,20 @@ html.dark-mode .header-logo-link {
 	line-height: 0;
 }
 
+.navigation__rss {
+	padding-left: 1em;
+	
+	a {
+		border: none;
+		border: 1px solid light-dark(var(--set-color-base-100), var(--set-color-base-900));
+		width: 30rem;
+		height: 30rem;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+}
+
 .navigation__color-scheme {
     display: flex;
 	flex-direction: column;
@@ -63,9 +71,6 @@ html.dark-mode .header-logo-link {
     justify-content: center;
     width: 20rem; 
     height: 20rem; 
-    /* border: 2px solid transparent;
-    border-radius: 50%;
-    transition: border-color 0.1s ease-in-out, background-color 0.1s ease-in-out; */
 }
 
 .navigation__color-scheme label:hover {
@@ -108,6 +113,10 @@ html.dark-mode .header-logo-link {
 	<div class="navigation__color-scheme">
 		<label><input name="color-scheme" type="radio" value="light"/><i class="fa-solid fa-sun-cloud"></i></label>
 		<label><input name="color-scheme" type="radio" value="dark"/><i class="fa-solid fa-moon-cloud"></i></label>
+	</div>
+
+	<div class="navigation__rss">
+		<a rel="alternate" type="application/rss+xml" title="Percept Index — All updates" href="/rss.xml"><i class="fa-sharp fa-light fa-rss"></i></a>
 	</div>
 	
 </header>
