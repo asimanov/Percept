@@ -6,8 +6,9 @@ import HeaderLink from './HeaderLink.astro';
 .header {
 	display: flex;
 	flex-direction: row;
-	width: 250rem;
-	margin-bottom: 32rem;
+	width: 100%;
+	margin-bottom: 26rem;
+	justify-content: space-between;
 
 	@media (max-width: 900px) {
 		margin-bottom: 0;
@@ -40,17 +41,44 @@ html.dark-mode .header-logo-link {
 	line-height: 0;
 }
 
-.navigation__rss {
-	padding-left: 1em;
+.navigation__extras {
+	padding-left: 25rem;
 	
 	a {
 		border: none;
 		border: 1px solid light-dark(var(--set-color-base-100), var(--set-color-base-900));
-		width: 30rem;
-		height: 30rem;
+		width: 100%;
 		display: flex;
+		flex-direction: row;
 		justify-content: center;
 		align-items: center;
+		font-size: 0.6em;
+		font-family: var(--set-font-mono);
+		padding: 4rem 10rem;
+
+		i {
+			margin-right: 10rem;
+			font-size: 2em;
+		}
+
+		&:hover {
+			border-color: var(--set-color-purple);
+		}
+	}
+
+	.tagline {
+		margin-bottom: 6rem;
+
+		span {
+			font-family: var(--set-font-mono);
+			text-transform: uppercase;
+			font-size: 0.7em;
+			font-weight: 700;
+
+			&:last-child {
+				color: var(--set-color-purple);
+			}
+		}
 	}
 }
 
@@ -60,7 +88,7 @@ html.dark-mode .header-logo-link {
 	align-items: center;
 	justify-content: space-around;
     gap: 5rem; 
-	padding-left: 10rem;
+	/* padding-left: 10rem; */
 	width: 30rem;
 }
 
@@ -115,8 +143,10 @@ html.dark-mode .header-logo-link {
 		<label><input name="color-scheme" type="radio" value="dark"/><i class="fa-solid fa-moon-cloud"></i></label>
 	</div>
 
-	<div class="navigation__rss">
-		<a rel="alternate" type="application/rss+xml" title="Percept Index — All updates" href="/rss.xml"><i class="fa-sharp fa-light fa-rss"></i></a>
+	<div class="navigation__extras">
+		<div class="tagline"><span>Your mind is my mind,</span> <span>re-arranged.</span></div>
+
+		<a rel="alternate" type="application/rss+xml" title="Percept Index — All updates" href="/rss.xml"><i class="fa-sharp fa-light fa-rss"></i> all entries feed: journal, art, M43, &amp; essays</a>
 	</div>
 	
 </header>
