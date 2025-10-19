@@ -47,22 +47,29 @@ const action = '/api/contact';
   const form = document.getElementById('contact-form') as HTMLFormElement | null;
   const statusEl = document.getElementById('contact-status') as HTMLParagraphElement | null;
 
+  type ContactResponse = {
+    ok?: boolean;
+    dryRun?: boolean;
+    error?: string;
+  };
+
   if (form && statusEl) {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       statusEl.textContent = 'Sending…';
 
       const fd = new FormData(form);
-      const target = form.action; // relative on dev (404 expected), same-origin on prod
+      const target = form.action;
 
       try {
         const res = await fetch(target, { method: 'POST', body: fd });
-        const data = await res.json().catch(() => ({}));
+        const data = (await res.json().catch(() => ({}))) as ContactResponse;
+
         if (res.ok && data.ok) {
           statusEl.textContent = data.dryRun ? 'Received (dry run).' : 'Sent. Thank you!';
           form.reset();
         } else {
-          statusEl.textContent = data?.error || 'Something went wrong.';
+          statusEl.textContent = (data && data.error) ? data.error : 'Something went wrong.';
         }
       } catch {
         statusEl.textContent = 'Network error.';

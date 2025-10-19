@@ -1,6 +1,8 @@
 ---
 import BaseHead from '../components/BaseHead.astro';
 import Nav from '../components/Nav.astro';
+import Header from '../components/Header.astro';
+import Aside from '../components/Aside.astro';
 import Footer from '../components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 ---
@@ -10,29 +12,43 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 	</head>
+
 	<body>
-
-		<Nav />
-
-<!-- 404 -->
-<section class="landing-blog">
-    <div class="container">
-        <div class="row p-t-5 p-b-3">
-
-            <div class="col-xs-12 col-md-6">                
-                <img src="/assets/product/images/404.svg" alt="island">
-            </div>
-
-			<div class="col-xs-12 col-md-6 p-b-1">
-                <h3 class="vds-text--primary">Yikes!</h3>
-                <p>Looks like the page you're looking for can't be found <a href="/blog/" title="take a look at my work">take a look at my work </a> or <a href="/blog/" title="check out the blog">check out the blog</a>.</p>
-            </div>
-
+    <div class="App">
+      <div class="Layout">
+        <div class="Masthead">
+          <Header />
         </div>
+        
+        <main class="Main">
+          <Nav />
+
+            <section>
+            <div class="container">
+                <div class="row">
+								
+                    <div class="col-xs-12 col-md-6">                
+                        <img src="/assets/product/images/404.svg" alt="island">
+                    </div>
+
+                    <div class="col-xs-12 col-md-6 p-b-1">
+                        <h3 class="vds-text--primary">Yikes!</h3>
+                        <p>Looks like the page you're looking for can't be found! <a href="/journal/" title="Take a look at the journal">Take a look at the journal </a> or <a href="/art/" title="check out the art section">check out the art section</a>.</p>
+                    </div>
+
+                </div>
+
+            </div>
+            </section>
+
+        </main>
+
+        <div class="Aside">
+          <Aside />
+        </div>
+      </div>
+
+      <Footer />
     </div>
-</section>
-
-		<Footer />
-
-	</body>
+  </body>
 </html>

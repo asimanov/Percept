@@ -5,10 +5,17 @@ import Nav from '../components/Nav.astro';
 import Header from '../components/Header.astro';
 import Aside from '../components/Aside.astro';
 import Footer from '../components/Footer.astro';
+import ResponseForm from '../components/ResponseForm.astro';
 
 type Props = CollectionEntry<'journal'>['data'];
 
 const { title, description, pubDate, updatedDate, author, tags, background } = Astro.props;
+
+const entryTitle = title;
+const entryUrl = Astro.site
+  ? new URL(Astro.url.pathname, Astro.site).href
+  : Astro.url.href;
+const entryId = Astro.url.pathname; // stable per-entry id
 ---
 
 <html lang="en">
@@ -16,10 +23,6 @@ const { title, description, pubDate, updatedDate, author, tags, background } = A
 		<BaseHead title={title} description={description} image={background || undefined} />
 
 <style>
-	/* .entry-header {
-		margin-bottom: 2em;
-	} */
-
 	.entry-header__hero {
 		padding: 5em 0;
 		border-radius: 6rem;
@@ -110,6 +113,17 @@ const { title, description, pubDate, updatedDate, author, tags, background } = A
 			bottom: -10rem;
 		}
 	}
+
+	#response-sent { display: none; }
+  	:target#response-sent { display: block; }
+	.response-success {
+		width: 100%;
+		padding: 1em;
+		border: 1px solid var(--set-color-green);
+		font-family: var(--set-font-mono) !important;
+  		color: var(--set-color-green);
+  		font-weight: 700;
+	}
 </style>
 
 	</head>
@@ -160,6 +174,16 @@ const { title, description, pubDate, updatedDate, author, tags, background } = A
 
 								<div class="post__content">
 									<slot />
+
+									<ResponseForm
+									entryTitle={entryTitle}
+									entryUrl={entryUrl}
+									entryId={entryId}
+									/>
+
+									<div id="response-sent" class="response-success m-b-1" role="status" aria-live="polite">
+										<span><i class="fa-sharp fa-light fa-thumbs-up"></i> Thank you. Your message was sent.</span>
+									</div>
 								</div>
 							
 							</section>

@@ -1,0 +1,119 @@
+---
+/**
+ * Props:
+ * - entryTitle: string (required)
+ * - entryUrl: string (required)
+ * - entryId: string (optional)
+ */
+const { entryTitle, entryUrl, entryId = "" } = Astro.props;
+---
+
+<style>
+.response-toggle {
+  border: 1px solid var(--set-color-purple);
+  padding: 1em;
+  margin: 2em 0 1em 0;
+}
+.response-toggle summary {
+  font-family: var(--set-font-mono) !important;
+  color: var(--set-color-purple);
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1em;
+}
+.response-toggle summary::-webkit-details-marker { display: none; }
+.response-meta {
+  opacity: .8;
+}
+
+.bsln-legend {
+    position: absolute;
+    top: -1.2em;
+    background: light-dark(var(--set-color-base-white),var(--set-color-base-black));
+}
+
+.bsln-legend {
+    position: absolute;
+    top: -1.2em;
+    background: light-dark(var(--set-color-base-white),var(--set-color-base-black));
+}
+
+.bsln-button, a.bsln-button {
+    margin: 0 !important;
+}
+
+form, button {
+    font-family: var(--set-font-mono) !important;
+}
+</style>
+
+<details class="response-toggle">
+  <summary>
+    <span><i class="fa-sharp fa-light fa-file-lock"></i> Send a Private note to the author.</span>
+  </summary>
+
+  <div>
+    <p class="response-meta m-t-1">
+      This goes directly to my inbox. I read every message.
+      Check the box if you’re OK with excerpts possibly appearing in a future “Reader Reflections” entry.
+    </p>
+
+    <div class="bsln-form-container">
+        <form method="post" action="/api/respond" novalidate>
+            <legend class="bsln-legend"><i class="fa-sharp fa-light fa-message-arrow-up-right"></i> Get in touch</legend>
+
+            <!-- hidden context -->
+            <input type="hidden" name="entryTitle" value={entryTitle} />
+            <input type="hidden" name="entryUrl" value={entryUrl} />
+            <input type="hidden" name="entryId" value={entryId} />
+            <input type="hidden" name="site" value="Percept Index" />
+
+            <!-- honeypot -->
+            <div style="position:absolute;left:-9999px;" aria-hidden="true">
+                <label>Leave this field empty</label>
+                <input type="text" name="website" tabindex="-1" autocomplete="off" />
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12 col-md-6 p-y-1">
+                    <div class="bsln-input-container">
+                    <input id="resp-name" name="name" type="text" class="bsln-input" />
+                    <label for="resp-name" class="bsln-label">Name <span style="opacity:.7;">(optional)</span></label>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-md-6 p-y-1">
+                    <div class="bsln-input-container">
+                    <input id="resp-email" name="email" type="email" class="bsln-input" autocomplete="email" placeholder=" " />
+                    <label for="resp-email" class="bsln-label">Email <span style="opacity:.7;">(optional)</span></label>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-12 p-y-1">
+
+                    <div class="bsln-textarea-container">
+                    <textarea id="resp-message" name="message" rows="6" class="bsln-textarea" required placeholder="What resonated with you?"></textarea>
+                    <label for="resp-message" class="bsln-label">Message</label>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="bsln-checkbox-container">
+                <input class="bsln-checkbox" id="resp-allow" type="checkbox" name="allowPublish" value="yes">
+                <label class="bsln-label" for="resp-allow">OK to publish excerpts in a future Reader Reflections entry</label>
+            </div>
+
+            <button type="submit" class="bsln-button block-sm"><i class="fa-sharp fa-light fa-inbox-in"></i> Send privately</button>
+        </form>
+    </div>
+
+  </div>
+</details>

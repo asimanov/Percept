@@ -1,10 +1,15 @@
 {
   "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "moduleResolution": "bundler",
+    "types": ["astro/client", "@cloudflare/workers-types"]
   },
   "include": [
     "src/**/*",
+    "functions",             
+    ".astro/types.d.ts",     
+    "src/env.d.ts",          
     "src/types/baguettebox.d.ts"
   ]
 }

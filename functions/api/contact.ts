@@ -1,4 +1,5 @@
 // POST /api/contact — supports: cf-email | sendgrid | mailgun (dry-run if none)
+
 export interface Env {
   CONTACT_PROVIDER?: string;          // "cf-email" | "sendgrid" | "mailgun"
   CONTACT_TO?: string;
@@ -25,7 +26,9 @@ function isValidEmail(email: string) {
 
 async function parseBody(request: Request) {
   const ct = request.headers.get("content-type") || "";
-  if (ct.includes("application/json")) return (await request.json().catch(() => ({}))) as any;
+  if (ct.includes("application/json")) {
+    return (await request.json().catch(() => ({}))) as any;
+  }
   if (ct.includes("form")) {
     const fd = await request.formData();
     const o: Record<string, any> = {};
@@ -43,7 +46,7 @@ async function verifyTurnstile(secret?: string, token?: string) {
     headers: { "content-type": "application/x-www-form-urlencoded" },
     body: new URLSearchParams({ secret, response: token }),
   });
-  const data = await resp.json().catch(() => ({}));
+  const data = (await resp.json().catch(() => ({}))) as { success?: boolean };
   return !!data.success;
 }
 
@@ -52,7 +55,13 @@ async function verifyTurnstile(secret?: string, token?: string) {
 async function sendWithCfEmail(env: Env, subject: string, text: string, replyTo?: string) {
   if (!env.EMAILER_URL || !env.EMAILER_TOKEN) throw new Error("Missing EMAILER_URL/EMAILER_TOKEN");
   if (!env.CONTACT_TO || !env.CONTACT_FROM) throw new Error("Missing CONTACT_TO/CONTACT_FROM");
-  const payload: any = { from: env.CONTACT_FROM, to: env.CONTACT_TO, subject, text };
+
+  const payload: Record<string, any> = {
+    from: env.CONTACT_FROM,
+    to: env.CONTACT_TO,
+    subject,
+    text,
+  };
   if (replyTo) payload.replyTo = replyTo;
 
   const res = await fetch(env.EMAILER_URL, {
@@ -103,12 +112,18 @@ async function sendWithMailgun(env: Env, subject: string, text: string) {
 
 // ---- Handler ----
 
-export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
+// NOTE: keep the signature untyped to CF-specific types to avoid lib conflicts.
+// We type only what we use: { request, env }.
+export const onRequestPost = async (ctx: { request: Request; env: Env }) => {
+  const { request, env } = ctx;
+
   try {
     const data = await parseBody(request);
 
     // Honeypot — bots tend to fill this
-    if (data.website) return new Response(JSON.stringify({ ok: true, dryRun: true, reason: "honeypot" }), { status: 200 });
+    if (data.website) {
+      return new Response(JSON.stringify({ ok: true, dryRun: true, reason: "honeypot" }), { status: 200 });
+    }
 
     const name = (data.name || "").toString().trim();
     const email = (data.email || "").toString().trim();
@@ -126,12 +141,18 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     const text = `From: ${name} <${email}>\n\n${message}`;
 
     const provider = (env.CONTACT_PROVIDER ?? "").trim().toLowerCase();
-    if (!provider) return new Response(JSON.stringify({ ok: true, dryRun: true }), { status: 200 });
+
+    if (!provider) {
+      // Dry-run when no provider configured
+      return new Response(JSON.stringify({ ok: true, dryRun: true }), { status: 200 });
+    }
 
     if (provider === "cf-email") await sendWithCfEmail(env, subject, text, email);
     else if (provider === "sendgrid") await sendWithSendGrid(env, subject, text);
     else if (provider === "mailgun") await sendWithMailgun(env, subject, text);
-    else return new Response(JSON.stringify({ ok: true, dryRun: true, note: "Unknown CONTACT_PROVIDER" }), { status: 200 });
+    else {
+      return new Response(JSON.stringify({ ok: true, dryRun: true, note: "Unknown CONTACT_PROVIDER" }), { status: 200 });
+    }
 
     return new Response(JSON.stringify({ ok: true }), { status: 200 });
   } catch (err: any) {
