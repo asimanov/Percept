@@ -1,16 +1,9 @@
-// POST /api/contact — supports: cf-email | sendgrid | mailgun (dry-run if none)
+// POST /api/contact — now simplified to cf-email only (dry-run if none)
 
 export interface Env {
-  CONTACT_PROVIDER?: string;          // "cf-email" | "sendgrid" | "mailgun"
+  CONTACT_PROVIDER?: string;          // "cf-email"
   CONTACT_TO?: string;
   CONTACT_FROM?: string;
-
-  // SendGrid
-  SENDGRID_API_KEY?: string;
-
-  // Mailgun
-  MAILGUN_API_KEY?: string;
-  MAILGUN_DOMAIN?: string;
 
   // Cloudflare Email Worker (HTTPS call)
   EMAILER_URL?: string;               // e.g. https://percept-email.<subdomain>.workers.dev
@@ -50,70 +43,39 @@ async function verifyTurnstile(secret?: string, token?: string) {
   return !!data.success;
 }
 
-// ---- Providers ----
+// ---- cf-email provider ----
 
 async function sendWithCfEmail(env: Env, subject: string, text: string, replyTo?: string) {
-  if (!env.EMAILER_URL || !env.EMAILER_TOKEN) throw new Error("Missing EMAILER_URL/EMAILER_TOKEN");
-  if (!env.CONTACT_TO || !env.CONTACT_FROM) throw new Error("Missing CONTACT_TO/CONTACT_FROM");
+  const url = env.EMAILER_URL?.trim();
+  const token = env.EMAILER_TOKEN?.trim();
+  const to = env.CONTACT_TO?.trim();
+  const fromRaw = env.CONTACT_FROM?.trim();
+
+  if (!url || !token || !to || !fromRaw) {
+    throw new Error("Missing EMAILER_URL/EMAILER_TOKEN or CONTACT_TO/CONTACT_FROM");
+  }
+
+  const from = fromRaw.match(/<([^>]+)>/)?.[1] || fromRaw;
 
   const payload: Record<string, any> = {
-    from: env.CONTACT_FROM,
-    to: env.CONTACT_TO,
+    from,
+    to,
     subject,
     text,
+    html: text.replace(/\n/g, "<br>"),
   };
   if (replyTo) payload.replyTo = replyTo;
 
-  const res = await fetch(env.EMAILER_URL, {
+  const res = await fetch(url, {
     method: "POST",
-    headers: { "content-type": "application/json", "x-email-token": env.EMAILER_TOKEN },
+    headers: { "content-type": "application/json", "x-email-token": token },
     body: JSON.stringify(payload),
   });
   if (!res.ok) throw new Error(`Email worker error: ${res.status} ${await res.text()}`);
 }
 
-async function sendWithSendGrid(env: Env, subject: string, text: string) {
-  if (!env.SENDGRID_API_KEY) throw new Error("Missing SENDGRID_API_KEY");
-  if (!env.CONTACT_TO || !env.CONTACT_FROM) throw new Error("Missing CONTACT_TO/CONTACT_FROM");
-
-  const body = {
-    personalizations: [{ to: [{ email: env.CONTACT_TO }] }],
-    from: { email: env.CONTACT_FROM },
-    subject,
-    content: [{ type: "text/plain", value: text }],
-  };
-
-  const res = await fetch("https://api.sendgrid.com/v3/mail/send", {
-    method: "POST",
-    headers: { Authorization: `Bearer ${env.SENDGRID_API_KEY}`, "content-type": "application/json" },
-    body: JSON.stringify(body),
-  });
-  if (!res.ok) throw new Error(`SendGrid error: ${res.status} ${await res.text()}`);
-}
-
-async function sendWithMailgun(env: Env, subject: string, text: string) {
-  if (!env.MAILGUN_API_KEY || !env.MAILGUN_DOMAIN) throw new Error("Missing MAILGUN_API_KEY/MAILGUN_DOMAIN");
-  if (!env.CONTACT_TO || !env.CONTACT_FROM) throw new Error("Missing CONTACT_TO/CONTACT_FROM");
-
-  const url = `https://api.mailgun.net/v3/${env.MAILGUN_DOMAIN}/messages`;
-  const form = new URLSearchParams();
-  form.set("from", env.CONTACT_FROM);
-  form.set("to", env.CONTACT_TO);
-  form.set("subject", subject);
-  form.set("text", text);
-
-  const res = await fetch(url, {
-    method: "POST",
-    headers: { Authorization: "Basic " + btoa("api:" + env.MAILGUN_API_KEY), "content-type": "application/x-www-form-urlencoded" },
-    body: form.toString(),
-  });
-  if (!res.ok) throw new Error(`Mailgun error: ${res.status} ${await res.text()}`);
-}
-
 // ---- Handler ----
 
-// NOTE: keep the signature untyped to CF-specific types to avoid lib conflicts.
-// We type only what we use: { request, env }.
 export const onRequestPost = async (ctx: { request: Request; env: Env }) => {
   const { request, env } = ctx;
 
@@ -142,16 +104,11 @@ export const onRequestPost = async (ctx: { request: Request; env: Env }) => {
 
     const provider = (env.CONTACT_PROVIDER ?? "").trim().toLowerCase();
 
-    if (!provider) {
-      // Dry-run when no provider configured
+    if (provider && provider === "cf-email") {
+      await sendWithCfEmail(env, subject, text, email);
+    } else {
+      // Dry-run or unknown provider
       return new Response(JSON.stringify({ ok: true, dryRun: true }), { status: 200 });
-    }
-
-    if (provider === "cf-email") await sendWithCfEmail(env, subject, text, email);
-    else if (provider === "sendgrid") await sendWithSendGrid(env, subject, text);
-    else if (provider === "mailgun") await sendWithMailgun(env, subject, text);
-    else {
-      return new Response(JSON.stringify({ ok: true, dryRun: true, note: "Unknown CONTACT_PROVIDER" }), { status: 200 });
     }
 
     return new Response(JSON.stringify({ ok: true }), { status: 200 });

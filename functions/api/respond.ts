@@ -2,7 +2,6 @@
 // POST /api/respond — sends via your existing Cloudflare Email Worker.
 
 interface Env {
-  // Reuse your contact vars (already configured in your screenshot)
   CONTACT_TO?: string;
   CONTACT_FROM?: string;
   EMAILER_URL?: string;
@@ -10,20 +9,29 @@ interface Env {
 }
 
 async function sendWithCfEmail(env: Env, subject: string, text: string, replyTo?: string) {
-  if (!env.EMAILER_URL || !env.EMAILER_TOKEN) throw new Error("Missing EMAILER_URL/EMAILER_TOKEN");
-  if (!env.CONTACT_TO || !env.CONTACT_FROM) throw new Error("Missing CONTACT_TO/CONTACT_FROM");
+  const url = env.EMAILER_URL?.trim();
+  const token = env.EMAILER_TOKEN?.trim();
+  const to = env.CONTACT_TO?.trim();
+  const fromRaw = env.CONTACT_FROM?.trim();
+
+  if (!url || !token || !to || !fromRaw) {
+    throw new Error("Missing EMAILER_URL/EMAILER_TOKEN or CONTACT_TO/CONTACT_FROM");
+  }
+
+  const from = fromRaw.match(/<([^>]+)>/)?.[1] || fromRaw;
 
   const payload: Record<string, any> = {
-    from: env.CONTACT_FROM,
-    to: env.CONTACT_TO,
+    from,
+    to,
     subject,
     text,
+    html: text.replace(/\n/g, "<br>"),
   };
   if (replyTo) payload.replyTo = replyTo;
 
-  const res = await fetch(env.EMAILER_URL, {
+  const res = await fetch(url, {
     method: "POST",
-    headers: { "content-type": "application/json", "x-email-token": env.EMAILER_TOKEN },
+    headers: { "content-type": "application/json", "x-email-token": token },
     body: JSON.stringify(payload),
   });
   if (!res.ok) throw new Error(`Email worker error: ${res.status} ${await res.text()}`);
