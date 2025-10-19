@@ -39,7 +39,7 @@ const action = '/api/contact';
 
     <button type="submit" class="bsln-button block-sm">Send</button>
 
-    <p id="contact-status" role="status" aria-live="polite" style="margin-top:.5rem;"></p>
+    <p id="contact-status" role="status" aria-live="polite"></p>
   </form>
 </div>
 
@@ -87,5 +87,13 @@ const action = '/api/contact';
 
   form, button {
     font-family: var(--set-font-mono) !important;
+  }
+
+  .bsln-button {
+    margin: 0 !important;
+  }
+
+  #contact-status {
+    color: var(--set-color-purple);
   }
 </style>

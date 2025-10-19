@@ -30,20 +30,11 @@ const { entryTitle, entryUrl, entryId = "" } = Astro.props;
   opacity: .8;
 }
 
-.bsln-legend {
-    position: absolute;
-    top: -1.2em;
-    background: light-dark(var(--set-color-base-white),var(--set-color-base-black));
-}
-
-.bsln-legend {
-    position: absolute;
-    top: -1.2em;
-    background: light-dark(var(--set-color-base-white),var(--set-color-base-black));
-}
-
 .bsln-button, a.bsln-button {
     margin: 0 !important;
+    background: var(--set-color-purple);
+    color: light-dark(var(--set-color-base-white), var(--set-color-base-black));
+    font-weight: 700;
 }
 
 form, button {
@@ -64,7 +55,6 @@ form, button {
 
     <div class="bsln-form-container">
         <form method="post" action="/api/respond" novalidate>
-            <legend class="bsln-legend"><i class="fa-sharp fa-light fa-message-arrow-up-right"></i> Get in touch</legend>
 
             <!-- hidden context -->
             <input type="hidden" name="entryTitle" value={entryTitle} />
@@ -108,7 +98,7 @@ form, button {
 
             <div class="bsln-checkbox-container">
                 <input class="bsln-checkbox" id="resp-allow" type="checkbox" name="allowPublish" value="yes">
-                <label class="bsln-label" for="resp-allow">OK to publish excerpts in a future Reader Reflections entry</label>
+                <label class="bsln-label" for="resp-allow" style="    text-wrap: auto;">OK to publish excerpts in a future Reader Reflections entry</label>
             </div>
 
             <button type="submit" class="bsln-button block-sm"><i class="fa-sharp fa-light fa-inbox-in"></i> Send privately</button>
