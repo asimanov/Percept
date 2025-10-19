@@ -1,41 +1,37 @@
 // functions/api/respond.ts
-// Cloudflare Pages Function for POST /api/respond
-// Uses SendGrid if keys are present; otherwise dry-run.
+// POST /api/respond — sends via your existing Cloudflare Email Worker.
 
 interface Env {
-  SENDGRID_API_KEY?: string;
-  FEEDBACK_TO?: string;
-  FEEDBACK_FROM?: string;
+  // Reuse your contact vars (already configured in your screenshot)
+  CONTACT_TO?: string;
+  CONTACT_FROM?: string;
+  EMAILER_URL?: string;
+  EMAILER_TOKEN?: string;
 }
 
-async function sendEmail(env: Env, subject: string, text: string, replyTo?: string) {
-  if (!env.SENDGRID_API_KEY || !env.FEEDBACK_TO || !env.FEEDBACK_FROM) {
-    // No provider configured: accept but don't send
-    return { dryRun: true };
-  }
+async function sendWithCfEmail(env: Env, subject: string, text: string, replyTo?: string) {
+  if (!env.EMAILER_URL || !env.EMAILER_TOKEN) throw new Error("Missing EMAILER_URL/EMAILER_TOKEN");
+  if (!env.CONTACT_TO || !env.CONTACT_FROM) throw new Error("Missing CONTACT_TO/CONTACT_FROM");
 
-  const res = await fetch("https://api.sendgrid.com/v3/mail/send", {
+  const payload: Record<string, any> = {
+    from: env.CONTACT_FROM,
+    to: env.CONTACT_TO,
+    subject,
+    text,
+  };
+  if (replyTo) payload.replyTo = replyTo;
+
+  const res = await fetch(env.EMAILER_URL, {
     method: "POST",
-    headers: {
-      Authorization: `Bearer ${env.SENDGRID_API_KEY}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      personalizations: [{ to: [{ email: env.FEEDBACK_TO }] }],
-      from: { email: env.FEEDBACK_FROM, name: "Percept Index" },
-      reply_to: replyTo ? { email: replyTo } : undefined,
-      subject,
-      content: [{ type: "text/plain", value: text }],
-    }),
+    headers: { "content-type": "application/json", "x-email-token": env.EMAILER_TOKEN },
+    body: JSON.stringify(payload),
   });
-  if (!res.ok) throw new Error(`SendGrid error: ${res.status}`);
-  return { dryRun: false };
+  if (!res.ok) throw new Error(`Email worker error: ${res.status} ${await res.text()}`);
 }
 
 export const onRequestPost = async (ctx: { request: Request; env: Env }) => {
   const { request, env } = ctx;
 
-  // Parse form fields
   const form = await request.formData().catch(() => null);
   if (!form) return new Response("Bad Request", { status: 400 });
 
@@ -52,10 +48,9 @@ export const onRequestPost = async (ctx: { request: Request; env: Env }) => {
   const name         = String(form.get("name") || "").trim();
   const email        = String(form.get("email") || "").trim();
   const allowPublish = String(form.get("allowPublish") || "").toLowerCase() === "yes";
-
-  const entryTitle = String(form.get("entryTitle") || "").trim();
-  const entryUrl   = String(form.get("entryUrl") || "").trim();
-  const entryId    = String(form.get("entryId") || "").trim();
+  const entryTitle   = String(form.get("entryTitle") || "").trim();
+  const entryUrl     = String(form.get("entryUrl") || "").trim();
+  const entryId      = String(form.get("entryId") || "").trim();
 
   const subject = `Percept Response: ${entryTitle || "Untitled entry"}`;
   const text = [
@@ -68,18 +63,13 @@ export const onRequestPost = async (ctx: { request: Request; env: Env }) => {
     "",
     "Message:",
     message,
-  ]
-    .filter(Boolean)
-    .join("\n");
+  ].filter(Boolean).join("\n");
 
   try {
-    await sendEmail(env, subject, text, email || undefined);
-
-    // Redirect back to the entry with success anchor
-    // If entryUrl is missing, fall back to homepage
+    await sendWithCfEmail(env, subject, text, email || undefined);
     const redirectTo = entryUrl || "/";
     return Response.redirect(`${redirectTo}#response-sent`, 303);
-  } catch (e) {
-    return new Response(JSON.stringify({ ok: false, error: "Send failed" }), { status: 500 });
+  } catch (e: any) {
+    return new Response(JSON.stringify({ ok: false, error: e?.message || "Send failed" }), { status: 500 });
   }
 };
