@@ -12,6 +12,7 @@ const journal = defineCollection({
 		author: z.string().optional(),
 		tags: z.string().optional(),
 		background: z.string().optional(),
+		exportToSubstack: z.boolean().optional(),
 	}),
 });
 
@@ -31,6 +32,7 @@ const art = defineCollection({
 		thumb: z.string().optional(),
 		collection: z.string().optional(),
 		related: z.string().optional(),
+		exportToSubstack: z.boolean().optional(),
 	}),
 });
 
@@ -46,6 +48,7 @@ const essays = defineCollection({
 		author: z.string().optional(),
 		tags: z.string().optional(),
 		background: z.string().optional(),
+		exportToSubstack: z.boolean().optional(),
 	}),
 });
 
