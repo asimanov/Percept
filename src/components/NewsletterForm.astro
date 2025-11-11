@@ -11,36 +11,24 @@
     </legend>
 
     <div class="row">
-      <div class="col-12 p-y-1">
-        <div class="bsln-input-container">
-          <input
-            type="email"
-            name="email"
-            id="newsletter-email"
-            required
-            aria-label="Email address"
-            class="bsln-input"
-          />
-          <label for="newsletter-email" class="bsln-label">Your email</label>
-        </div>
-      </div>
-
       <div class="col-12">
-        <span>Percept Signal via Substack. No noise, no nonsense.</span>
+        <span>Get new feature entries, field notes, and selected work from Percept Index delivered by email. Email delivery is handled securely through Substack.</span>
       </div>
     </div>
 
     <div class="row">
-      <div class="col-xs-12 col-md-4 p-y-1">
-        <button type="submit" class="bsln-button block-sm">
-          Subscribe
-        </button>
-      </div>
-
-      <div class="col-xs-12 col-md-8 p-t-1">
-        <span>You’ll get new feature entries, field notes, and that’s it.</span>
+      <div class="col-12 substack-entry">
+        <a
+          href="https://perceptindex.substack.com/subscribe"
+          class="bsln-button"
+          target="_blank"
+          rel="noopener"
+        >
+          Subscribe via Substack
+        </a>
       </div>
     </div>
+
   </form>
 </div>
 
@@ -59,5 +47,11 @@
   form,
   button {
     font-family: var(--set-font-mono) !important;
+  }
+
+  .substack-entry {
+    .bsln-button {
+      margin: 1em 0 0 0 !important;
+    }
   }
 </style>
