@@ -1,47 +1,47 @@
 <!-- components/NewsletterForm.astro -->
 
 <div class="bsln-form-container">
-
   <form
-    action="https://buttondown.com/api/emails/embed-subscribe/perceptindex"
+    action="/api/newsletter"
     method="post"
     class="newsletter-form"
   >
-  <legend class="bsln-legend"><i class="fa-sharp fa-light fa-mailbox"></i> Newsletter</legend>
+    <legend class="bsln-legend">
+      <i class="fa-sharp fa-light fa-mailbox"></i> Newsletter
+    </legend>
 
     <div class="row">
-      <div class="col-xs-12 col-md-8 p-y-1">
-
+      <div class="col-12 p-y-1">
         <div class="bsln-input-container">
           <input
             type="email"
             name="email"
+            id="newsletter-email"
             required
             aria-label="Email address"
             class="bsln-input"
           />
-          <label for="email" class="bsln-label">Your email</label>
-          <input type="hidden" name="embed" value="1" />
+          <label for="newsletter-email" class="bsln-label">Your email</label>
         </div>
       </div>
 
-      <div class="col-xs-12 col-md-4 p-y-1">
-        <span>Not gonna sell it for cheap. 🤌🏼</span>
+      <div class="col-12">
+        <span>Percept Signal via Substack. No noise, no nonsense.</span>
       </div>
     </div>
 
     <div class="row">
       <div class="col-xs-12 col-md-4 p-y-1">
-        <button type="submit" class="bsln-button block-sm">Subscribe</button>
+        <button type="submit" class="bsln-button block-sm">
+          Subscribe
+        </button>
       </div>
 
-      <div class="col-xs-12 col-md-8 p-y-1">
-        <span>I promise to only send spam.👍🏻</span>
+      <div class="col-xs-12 col-md-8 p-t-1">
+        <span>You’ll get new feature entries, field notes, and that’s it.</span>
       </div>
     </div>
-      
   </form>
-
 </div>
 
 <style>
@@ -53,10 +53,11 @@
   .bsln-legend {
     position: absolute;
     top: -1.2em;
-    background: light-dark(var(--set-color-base-white),var(--set-color-base-black));
+    background: light-dark(var(--set-color-base-white), var(--set-color-base-black));
   }
 
-  form, button {
+  form,
+  button {
     font-family: var(--set-font-mono) !important;
   }
 </style>
