@@ -36,6 +36,14 @@ const entryId = Astro.url.pathname; // stable per-entry id
     }
 
 	.post__content {
+
+		hr {
+			margin: 1.5em 0;
+			border-color: light-dark(var(--set-color-base-200), var(--set-color-base-950));
+			border-width: 2px;
+			border-style: dashed;
+		}
+
 		p {
 			margin-bottom: 1em;
 		}
