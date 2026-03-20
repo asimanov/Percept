@@ -10,7 +10,6 @@ import { getCollection } from 'astro:content';
 const posts = (await getCollection('essays')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
-
 ---
 
 <style>
@@ -27,19 +26,43 @@ const posts = (await getCollection('essays')).sort(
 .entry-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
+  gap: 40px;
 }
 
 .entry {
   --card-box-shadow: none;
-  border-radius: 6px;
   box-sizing: border-box;
   border-bottom: none;
   background: none;
+  border: 1px solid light-dark(var(--set-color-base-150),var(--set-color-base-900));
+  border-radius: 0;
+  position: relative;
+  overflow: visible;
 
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  .bsln-card__header,
+  .bsln-card__body {
+    background: none;
+  }
+
+  .bsln-card__body {
+    padding-top: 16rem;
+  }
+
+  .meta {
+    display: block;
+    position: absolute;
+    top: -12rem;
+    background: var(--set-color-base);
+    border: 1px solid light-dark(var(--set-color-base-150),var(--set-color-base-900));
+    padding: 4rem 6rem;
+    height: 22rem;
+
+    time {
+      display: block;
+      line-height: 13rem;
+      font-family: var(--set-font-mono);
+    }
+  }
 
   h5 {
 	color: var(--set-color-purple);
@@ -48,10 +71,6 @@ const posts = (await getCollection('essays')).sort(
   &:hover {
 	color: var(--set-color-purple);
   }
-}
-
-time {
-	font-family: var(--set-font-mono);
 }
 
 .excerpt {
@@ -103,28 +122,23 @@ h5 {
 }
 
 .entry:first-child {
-  grid-column: 1 / -1; /* Span all columns */
-}
-
-.header h3 {
-	text-wrap: pretty;
+  grid-column: 1 / -1;
 }
 
 @media (max-width: 900px) {
   .entry-container {
-    gap: 10px;
+    gap: 40px;
   }
 
   .entry:first-child {
-    grid-column: 1 / -1; /* Ensure it spans all columns on smaller screens as well */
+    grid-column: 1 / -1;
   }
 }
 
 @media (max-width: 600px) {
-
   .entry-container {
     grid-template-columns: 1fr;
-    gap: 10px;
+    gap: 40px;
   }
 
   .percept-container {
@@ -133,7 +147,7 @@ h5 {
   }
 
   .entry:first-child {
-    grid-column: 1 / -1; /* Ensure it spans all columns on very small screens as well */
+    grid-column: 1 / -1;
   }
 }
 </style>
@@ -156,56 +170,36 @@ h5 {
 
 					<header>
 						<div class="p-y-6 p-x-2 m-b-2" style="background: url(/assets/product/images/percept/p-bg-02.jpg) 50% no-repeat; background-size: cover; border-radius: 6rem;">
-							
-							<!-- <h3 class="m-0 text-align--center bsln-text--white">Percept</h3> -->
-			
 						</div>
-					</header> 
+					</header>
 
 					<div class="percept-container">
 
 						<div class="percept-journal">
-							
+
 							<h3>Essay Entries</h3>
 
-							<div class="entry-container">
+							<div class="entry-container m-t-2">
 
-								<!-- PLACEHOLDER -->
-								<div class="bsln-card m-t-1">
-									<div class="bsln-card__header">
-										<span class="bsln-card__info">08/01/2025</span>
-									</div>
-									<div class="bsln-card__body">
-										<span class="font-family--mono"><strong>I'M WORKING ON IT!</strong></span>
-									</div>
-								</div>
-								<!-- PLACEHOLDER -->
-				
-								{
-									posts.map((post) => (
-										
-										<a href={`/essays/${post.slug}`} class="entry bsln-card">
-
-											<div>	
-											<p>
+								{posts.map((post) => (
+									<a href={`/essays/${post.id.replace(/\.md$/, '')}`} class="entry bsln-card">
+										<div class="bsln-card__body">
+											<p class="meta">
 												<time class="font-size--xs">
+													<i class="fa-sharp fa-light fa-calendar"></i>
 													{new Date(post.data.pubDate).toLocaleDateString('en-us', {
 														year: 'numeric',
 														month: 'numeric',
 														day: 'numeric',
 													})}
-												</time>	
+												</time>
 											</p>
-
 											<h5>{post.data.title}</h5>
-											</div>
+											<p class="excerpt">{post.data.description}</p>
+										</div>
+									</a>
+								))}
 
-											<div><p class="excerpt">{post.data.description}</p></div>
-											
-										</a>
-									))
-								}
-								
 							</div>
 
 						</div>
@@ -213,11 +207,9 @@ h5 {
 					</div>
 
 				</main>
-				
-				<div class="Aside">
-					
-					<Aside />
 
+				<div class="Aside">
+					<Aside />
 				</div>
 
 			</div>
