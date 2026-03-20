@@ -6,29 +6,29 @@ export const prerender = true;
 
 export async function GET(context: APIContext) {
   // Load each collection
-  const [journal, art, M43, essays] = await Promise.all([
-    getCollection('journal'),
+  const [art, M43, essays, fieldNotes] = await Promise.all([
     getCollection('art'),
     getCollection('M43'),
     getCollection('essays'),
+    getCollection('field-notes'),
   ]);
 
   // Flatten. Do not create your own `collection` field.
-  const all = [...journal, ...art, ...M43, ...essays];
+  const all = [...art, ...M43, ...essays, ...fieldNotes];
 
   // Labels and base paths keyed by the built-in post.collection value
   const labels = {
-    journal: 'Journal',
     art: 'Art',
     M43: 'M43',
     essays: 'Essays',
+    'field-notes': 'Field Notes',
   } as const;
 
   const basePaths = {
-    journal: '/journal/',
     art: '/art/',
     M43: '/M43/',
     essays: '/essays/',
+    'field-notes': '/field-notes/',
   } as const;
 
   // Sort newest first by updatedDate, then pubDate

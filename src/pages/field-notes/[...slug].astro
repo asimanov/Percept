@@ -1,0 +1,20 @@
+---
+import { type CollectionEntry, getCollection } from 'astro:content';
+import FieldNotesPost from '../../layouts/FieldNotesEntry.astro';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('field-notes');
+	return posts.map((post) => ({
+		params: { slug: post.id.replace(/\.md$/, '') },
+		props: post,
+	}));
+}
+type Props = CollectionEntry<'field-notes'>;
+
+const post = Astro.props;
+const { Content } = await post.render();
+---
+
+<FieldNotesPost {...post.data}>
+	<Content />
+</FieldNotesPost>

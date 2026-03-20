@@ -8,13 +8,20 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 import { getCollection } from 'astro:content';
 import Gallery from '../components/Gallery.astro';
 
-const posts = (await getCollection('journal'))
+const posts = (await getCollection('essays'))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 10);
 
 const artPosts = (await getCollection('art'))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 4);
+
+const fnPosts = (await getCollection('field-notes'))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 4);
+
+const fnFeatured = fnPosts[0];
+const fnRecent = fnPosts.slice(1);
 ---
 
 <style>
@@ -47,7 +54,6 @@ const artPosts = (await getCollection('art'))
 	width: 20%;
 
 	h6 {
-		/* font-size: calc(6rem + 0.5vw); */
 		word-break: break-all;
 
 		span {
@@ -148,11 +154,98 @@ h5 {
 }
 
 .entry:first-child {
-  grid-column: 1 / -1; /* Span all columns */
+  grid-column: 1 / -1;
 }
 
 .header h3 {
 	text-wrap: pretty;
+}
+
+/* ---- Field Notes section ---- */
+.fn-section {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.fn-featured-wrap {
+  width: 55%;
+}
+
+.fn-grid-wrap {
+  width: 45%;
+}
+
+.fn-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.fn-featured,
+.fn-entry {
+  --card-box-shadow: none;
+  box-sizing: border-box;
+  background: none;
+  border-bottom: none;
+  border: 1px solid light-dark(var(--set-color-base-150),var(--set-color-base-900));
+  border-radius: 0;
+  display: block;
+  position: relative;
+  overflow: visible;
+
+  .bsln-card__header,
+  .bsln-card__body {
+    background: none;
+  }
+
+  .bsln-card__body {
+	padding: 10rem;
+    padding-top: 16rem;
+  }
+
+  .meta {
+    display: block;
+    position: absolute;
+    top: -12rem;
+    background: var(--set-color-base);
+    border: 1px solid light-dark(var(--set-color-base-150),var(--set-color-base-900));
+    padding: 4rem 6rem;
+    height: 22rem;
+
+    time {
+      display: block;
+      line-height: 13rem;
+      font-family: var(--set-font-mono);
+    }
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+	padding: 16rem 10rem 0 10rem;
+  }
+
+  &:hover {
+    color: var(--set-color-purple);
+  }
+}
+
+.fn-excerpt {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fn-view-all {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80px;
 }
 
 @media (max-width: 900px) {
@@ -161,12 +254,17 @@ h5 {
   }
 
   .entry:first-child {
-    grid-column: 1 / -1; /* Ensure it spans all columns on smaller screens as well */
+    grid-column: 1 / -1;
   }
 
-  /* .percept-rc__entry .bsln-card__body .meta time {
-	font-size: 0.6em;
-  } */
+  .fn-section {
+    flex-direction: column;
+  }
+
+  .fn-featured-wrap,
+  .fn-grid-wrap {
+    width: 100%;
+  }
 }
 
 @media (max-width: 600px) {
@@ -205,7 +303,11 @@ h5 {
   }
 
   .entry:first-child {
-    grid-column: 1 / -1; /* Ensure it spans all columns on very small screens as well */
+    grid-column: 1 / -1;
+  }
+
+  .fn-grid {
+    grid-template-columns: 1fr;
   }
 }
 </style>
@@ -227,6 +329,57 @@ h5 {
 				<main class="Main">
 					<Nav />
 
+					<!-- Field Notes section -->
+					<section class="m-b-2">
+						<h6 class="m-b-2">Field Notes</h6>
+
+						<div class="fn-section">
+
+							<div class="fn-featured-wrap">
+								{fnFeatured && (
+									<a href={`/field-notes/${fnFeatured.id.replace(/\.md$/, '')}`} class="fn-featured bsln-card">
+										<img src={fnFeatured.data.thumb} alt={fnFeatured.data.title} />
+										<div class="bsln-card__body">
+											<p class="meta">
+												<time class="font-size--xs">
+													<i class="fa-sharp fa-light fa-calendar"></i>
+													{new Date(fnFeatured.data.pubDate).toLocaleDateString('en-us', { year: 'numeric', month: 'numeric', day: 'numeric' })}
+												</time>
+											</p>
+											<p class="fn-excerpt">{fnFeatured.data.description}</p>
+										</div>
+									</a>
+								)}
+							</div>
+
+							<div class="fn-grid-wrap">
+								<div class="fn-grid">
+									{fnRecent.map((post) => (
+										<a href={`/field-notes/${post.id.replace(/\.md$/, '')}`} class="fn-entry bsln-card">
+											<img src={post.data.thumb} alt={post.data.title} />
+											<div class="bsln-card__body">
+												<p class="meta">
+													<time class="font-size--xs">
+														<i class="fa-sharp fa-light fa-calendar"></i>
+														{new Date(post.data.pubDate).toLocaleDateString('en-us', { year: 'numeric', month: 'numeric', day: 'numeric' })}
+													</time>
+												</p>
+												<p class="fn-excerpt">{post.data.description}</p>
+											</div>
+										</a>
+									))}
+
+									<a class="fn-entry bsln-card fn-view-all" href="/field-notes" title="All Field Notes">
+										<div class="bsln-card__body text-align--center" style="padding: 0;">
+											<span><i class="fa-sharp fa-light fa-arrows-to-eye fa-2xl"></i></span>
+										</div>
+									</a>
+								</div>
+							</div>
+
+						</div>
+					</section>
+
 					<!-- Hi! just a small update. -->
 					<section>
 						<div class="container">
@@ -234,41 +387,41 @@ h5 {
 								<div class="col-12">
 
 									<header>
-										<div class="p-y-10 m-b-2" style="background: url(/assets/product/images/percept/landing-full-20.jpg) 50% no-repeat; background-size: cover; border-radius: 6rem;">
-										</div>
+										<!-- <div class="p-y-10 m-b-2" style="background: url(/assets/product/images/percept/landing-full-20.jpg) 50% no-repeat; background-size: cover; border-radius: 6rem;">
+										</div> -->
 
 										<div class="percept-info">
 											<div class="row">
 
 												<div class="col-xs-12 col-md-6">
 													<div class="bsln-card bsln-card--hr m-b-1">
-												
+
 														<div class="bsln-card__body">
 														<p class="no-margin"><i class="fa-sharp fa-light fa-clipboard-question"></i> What's all this about? <a href="/colophon" title="Colophon">Read More</a></p>
 														</div>
-												
+
 													</div>
 												</div>
 
 												<div class="col-xs-12 col-md-6">
 													<div class="bsln-card bsln-card--hr m-b-1">
-												
+
 														<div class="bsln-card__body">
 														<p class="no-margin"><i class="fa-sharp fa-light fa-head-side-gear"></i> I want to learn! <a href="/learn" title="Learn">Read More</a></p>
 														</div>
-												
+
 													</div>
 												</div>
 
 											</div>
 										</div>
-									</header> 
-							
+									</header>
+
 								</div>
 							</div>
-					
+
 						</div>
-					</section> 
+					</section>
 
 					<div class="percept-container">
 
@@ -281,8 +434,8 @@ h5 {
 									{artPosts.map((post) => (
 									<a
 										class="percept-rc__entry bsln-card"
-										href={post.data.asset}             
-										data-post-url={post.data.related} 
+										href={post.data.asset}
+										data-post-url={post.data.related}
 									>
 										<div class="bsln-card__body">
 											<p class="meta">
@@ -294,10 +447,10 @@ h5 {
 														month: 'numeric',
 														day: 'numeric',
 													})}
-												</time>	
+												</time>
 											</p>
 										<img
-										src={post.data.thumb}       
+										src={post.data.thumb}
 										alt={post.data.title || post.slug}
 										/>
 										</div>
@@ -316,15 +469,15 @@ h5 {
 						</div>
 
 						<div class="percept-journal">
-							
+
 							<h6 class="m-t-1 m-b-2">Journal Entries</h6>
 
 							<div class="entry-container">
-				
+
 								{
 									posts.map((post) => (
-										
-										<a href={`/journal/${post.slug}`} class="entry bsln-card">
+
+										<a href={`/essays/${post.id.replace(/\.md$/, '')}`} class="entry bsln-card">
 
 											<div class="bsln-card__body">
 												<p class="meta">
@@ -336,22 +489,22 @@ h5 {
 															month: 'numeric',
 															day: 'numeric',
 														})}
-													</time>	
+													</time>
 												</p>
 												<h5>{post.data.title}</h5>
 												<p class="excerpt">{post.data.description}</p>
 											</div>
-											
+
 										</a>
 									))
 								}
 
-								<a class="entry bsln-card" href="/journal" title="Art Entries" style="min-height: 150rem; display: flex; align-items: center;justify-content: center;">
+								<a class="entry bsln-card" href="/essays" title="Essay Entries" style="min-height: 150rem; display: flex; align-items: center;justify-content: center;">
 									<div class="bsln-card__body text-align--center" style="padding: 0;">
 										<span><i class="fa-sharp fa-light fa-arrows-to-eye fa-2xl"></i></span>
 									</div>
 								</a>
-								
+
 							</div>
 
 						</div>
@@ -359,9 +512,9 @@ h5 {
 					</div>
 
 				</main>
-				
+
 				<div class="Aside">
-					
+
 					<Aside />
 
 				</div>

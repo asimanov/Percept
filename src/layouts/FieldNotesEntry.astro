@@ -7,15 +7,15 @@ import Aside from '../components/Aside.astro';
 import Footer from '../components/Footer.astro';
 import ResponseForm from '../components/ResponseForm.astro';
 
-type Props = CollectionEntry<'essays'>['data'];
+type Props = CollectionEntry<'field-notes'>['data'];
 
-const { title, description, pubDate, updatedDate, author, tags, background } = Astro.props;
+const { title, description, pubDate, updatedDate, author, tags, background, asset, related } = Astro.props;
 
 const entryTitle = title;
 const entryUrl = Astro.site
   ? new URL(Astro.url.pathname, Astro.site).href
   : Astro.url.href;
-const entryId = Astro.url.pathname; // stable per-entry id
+const entryId = Astro.url.pathname;
 ---
 
 <html lang="en">
@@ -23,6 +23,13 @@ const entryId = Astro.url.pathname; // stable per-entry id
 		<BaseHead title={title} description={description} image={background || undefined} />
 
 <style>
+	.entry-header {
+		a:first-child {
+			border: none;
+			line-height: 0;
+		}
+	}
+
 	.entry-header__hero {
 		padding: 5em 0;
 		border-radius: 6rem;
@@ -36,20 +43,8 @@ const entryId = Astro.url.pathname; // stable per-entry id
     }
 
 	.post__content {
-
-		hr {
-			margin: 1.5em 0;
-			border-color: light-dark(var(--set-color-base-200), var(--set-color-base-950));
-			border-width: 2px;
-			border-style: dashed;
-		}
-
 		p {
 			margin-bottom: 1em;
-		}
-
-		ol {
-			list-style: auto;
 		}
 
 		h2 {
@@ -103,9 +98,10 @@ const entryId = Astro.url.pathname; // stable per-entry id
 			}
 		}
 
-		h5 {
-			margin-bottom: 0.8em;
+		date {
+			font-family: var(--set-font-mono);
 		}
+
 	}
 
 	.post__meta {
@@ -149,42 +145,51 @@ const entryId = Astro.url.pathname; // stable per-entry id
 
 			<div class="App">
 				<div class="Layout">
-	
+
 					<div class="Masthead">
 						<Header />
 					</div>
-	
+
 					<main class="Main">
 						<Nav />
-						
-						<header class="entry-header">
 
-							<img src={background} style="height: auto; width: 100%; border-radius: 6rem;" alt={title}> 
+						<header class="entry-header">
+							<a href={asset} title={title}>
+								<img
+								src={asset}
+								style="height: auto; width: 100%; border-radius: 6rem;"
+								alt={title}
+								/>
+							</a>
 
 							<div class="meta-dates p-b-1">
-								<span><strong>Published:</strong> {new Date(pubDate).toLocaleDateString('en-us', {
+								<span>
+								<strong>Published:</strong>
+								{new Date(pubDate).toLocaleDateString('en-us', {
 									year: 'numeric',
 									month: 'numeric',
 									day: 'numeric',
-								})}</span> |
+								})}
+								</span>
+								{' | '}
 								{updatedDate && (
-									<span>
-									  <strong>Updated:</strong>
-									  {new Date(updatedDate).toLocaleDateString('en-us', {
-										year: 'numeric',
-										month: 'numeric',
-										day: 'numeric',
-									  })}
-									</span>
-									<span>
-                                        <strong>| Author:</strong>
-                                        {author}
-                                    </span>
+								<span>
+									<strong>Updated:</strong>
+									{new Date(updatedDate).toLocaleDateString('en-us', {
+									year: 'numeric',
+									month: 'numeric',
+									day: 'numeric',
+									})}
+								</span>
+								<span>
+									<strong>| Author:</strong>
+									{author}
+								</span>
 								)}
 							</div>
-
 						</header>
-			
+
+
 						<div class="post">
 							<section class="section">
 
@@ -201,23 +206,23 @@ const entryId = Astro.url.pathname; // stable per-entry id
 										<span><i class="fa-sharp fa-light fa-thumbs-up"></i> Thank you. Your message was sent.</span>
 									</div>
 								</div>
-							
+
 							</section>
 						</div>
-					
+
 					</main>
-				
+
 					<div class="Aside">
-					
+
 						<Aside />
-	
+
 					</div>
-	
+
 				</div>
-	
+
 			<Footer />
 
 		</div>
-			
+
 	</body>
 </html>

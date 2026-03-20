@@ -9,13 +9,12 @@ export async function GET(context: APIContext) {
   const site = context.site!;
 
   // Only entries explicitly marked for Substack
-  const [journal, essays, art] = await Promise.all([
-    getCollection('journal', ({ data }) => data.exportToSubstack === true),
+  const [essays, art] = await Promise.all([
     getCollection('essays', ({ data }) => data.exportToSubstack === true),
     getCollection('art', ({ data }) => data.exportToSubstack === true),
   ]);
 
-  const all = [...journal, ...essays, ...art];
+  const all = [...essays, ...art];
 
   // Newest first by updatedDate fallback to pubDate
   all.sort((a, b) => {

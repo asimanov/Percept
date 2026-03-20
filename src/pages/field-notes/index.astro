@@ -1,0 +1,219 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import Nav from '../../components/Nav.astro';
+import Header from '../../components/Header.astro';
+import Aside from '../../components/Aside.astro';
+import Footer from '../../components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
+import { getCollection } from 'astro:content';
+
+const sortedPosts: CollectionEntry<'field-notes'>[] = (
+  await getCollection('field-notes')
+).sort(
+  (a: CollectionEntry<'field-notes'>, b: CollectionEntry<'field-notes'>) =>
+    b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const years: string[] = [];
+for (const post of sortedPosts) {
+  const yr = new Date(post.data.pubDate).getFullYear().toString();
+  if (!years.includes(yr)) years.push(yr);
+}
+---
+
+<style>
+.percept-container {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+}
+
+.percept-journal {
+  width: 100%;
+}
+
+.entry-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 40px;
+}
+
+.entry {
+  --card-box-shadow: none;
+  border-radius: 6px;
+  box-sizing: border-box;
+  border-bottom: none;
+  background: none;
+  border: 1px solid light-dark(var(--set-color-base-150),var(--set-color-base-900));
+  border-radius: 0;
+  position: relative;
+  overflow: visible;
+
+  .bsln-card__header,
+  .bsln-card__body {
+	  background: none !important;
+  }
+
+  .bsln-card__body {
+	  padding-top: 16rem;
+    padding-bottom: 0;
+  }
+
+  .meta {
+    display: block;
+    position: absolute;
+    top: -12rem;
+    background: var(--set-color-base);
+    border: 1px solid light-dark(var(--set-color-base-150),var(--set-color-base-900));
+    padding: 4rem 6rem;
+    height: 22rem;
+
+    time {
+      display: block;
+      line-height: 13rem;
+      font-family: var(--set-font-mono);
+    }
+  }
+
+  h5 {
+	  color: var(--set-color-purple);
+  }
+
+  &:hover {
+	  color: var(--set-color-purple);
+  }
+}
+
+h3 {
+  --heading-underline-color: light-dark(var(--set-color-dark-purple),var(--set-color-light-purple));
+  position: relative;
+  margin-bottom: 26rem;
+
+  &::after {
+    content: "";
+    display: block;
+    width: 60rem;
+    height: 6rem;
+    background: var(--heading-underline-color);
+    position: absolute;
+    left: 0;
+    bottom: -10rem;
+  }
+}
+
+h4, h6 {
+  --heading-underline-color: var(--set-color-base-inverse);
+  position: relative;
+  margin-bottom: 26rem;
+  text-wrap: pretty;
+
+  &::after {
+    content: "";
+    display: block;
+    width: 60rem;
+    height: 6rem;
+    background: var(--heading-underline-color);
+    position: absolute;
+    left: 0;
+    bottom: -10rem;
+  }
+}
+
+h5 {
+  text-wrap: pretty;
+}
+
+@media (max-width: 900px) {
+  .entry-container {
+    gap: 40px;
+  }
+}
+
+@media (max-width: 600px) {
+  .entry-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .percept-container {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+</style>
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+  <body>
+    <div class="App">
+      <div class="Layout">
+        <div class="Masthead">
+          <Header />
+        </div>
+
+        <main class="Main">
+          <Nav />
+
+          <header>
+            <div
+              class="p-y-6 p-x-2 m-b-2"
+              style="
+                background: url(/assets/product/images/percept/p-bg-02.jpg) 50% no-repeat;
+                background-size: cover;
+                border-radius: 6rem;
+              "
+            >
+              <!-- hero -->
+            </div>
+          </header>
+
+          <div class="percept-container">
+            <div class="percept-journal">
+              {years.map((year) => (
+                <section>
+                  <h3>{year}</h3>
+                  <div class="entry-container m-t-2 m-b-2">
+                    {sortedPosts
+                      .filter((post) =>
+                        new Date(post.data.pubDate).getFullYear().toString() === year
+                      )
+                      .map((post: CollectionEntry<'field-notes'>) => (
+                        <a href={`/field-notes/${post.id.replace(/\.md$/, '')}`} class="entry bsln-card">
+                          <div class="bsln-card__body">
+                            <p class="meta">
+                              <time class="font-size--xs">
+                                {new Date(post.data.pubDate).toLocaleDateString('en-us', {
+                                  year: 'numeric',
+                                  month: 'numeric',
+                                  day: 'numeric'
+                                })}
+                              </time>
+                            </p>
+                            <h5>{post.data.title}</h5>
+                            <img
+                              src={post.data.thumb}
+                              style="height:auto; width:100%;"
+                              alt={post.data.title}
+                            />
+                          </div>
+                        </a>
+                      ))}
+                  </div>
+                </section>
+              ))}
+            </div>
+          </div>
+        </main>
+
+        <div class="Aside">
+          <Aside />
+        </div>
+      </div>
+
+      <Footer />
+    </div>
+  </body>
+</html>

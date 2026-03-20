@@ -62,7 +62,7 @@ pre > code {
   padding: 0 var(--page-margin);
   margin: 0 auto;
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
   container: app / inline-size;
 }
 
