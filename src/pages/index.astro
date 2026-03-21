@@ -10,7 +10,7 @@ import Gallery from '../components/Gallery.astro';
 
 const posts = (await getCollection('essays'))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 10);
+  .slice(0, 11);
 
 const artPosts = (await getCollection('art'))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
@@ -18,7 +18,7 @@ const artPosts = (await getCollection('art'))
 
 const fnPosts = (await getCollection('field-notes'))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 4);
+  .slice(0, 5);
 
 const fnFeatured = fnPosts[0];
 const fnRecent = fnPosts.slice(1);
@@ -241,11 +241,33 @@ h5 {
   text-overflow: ellipsis;
 }
 
+.fn-entry .fn-excerpt {
+  font-size: 0.8em;
+}
+
 .fn-view-all {
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 80px;
+}
+
+.title-action {
+	h6 {
+		display: inline;
+	}
+
+	.title-action__button {
+		font-size: 0.65em;
+		text-transform: uppercase;
+		font-family: var(--set-font-mono);
+		margin-left: 1em;
+		border: 2px solid var(--link-style-color);
+		padding: 0.25em 0.5em;
+		font-weight: 900;
+		letter-spacing: 2rem;
+		line-height: normal;
+	}
 }
 
 @media (max-width: 900px) {
@@ -331,7 +353,12 @@ h5 {
 
 					<!-- Field Notes section -->
 					<section class="m-b-2">
-						<h6 class="m-b-2">Field Notes</h6>
+						<div class="title-action m-b-2">
+							<h6>Field Notes</h6>
+							<a class="title-action__button" href="/field-notes" title="All Field Notes">
+								<span>View All</span> <i class="fa-sharp fa-light fa-arrows-to-eye"></i>
+							</a>
+						</div>
 
 						<div class="fn-section">
 
@@ -369,11 +396,11 @@ h5 {
 										</a>
 									))}
 
-									<a class="fn-entry bsln-card fn-view-all" href="/field-notes" title="All Field Notes">
+									<!-- <a class="fn-entry bsln-card fn-view-all" href="/field-notes" title="All Field Notes">
 										<div class="bsln-card__body text-align--center" style="padding: 0;">
 											<span><i class="fa-sharp fa-light fa-arrows-to-eye fa-2xl"></i></span>
 										</div>
-									</a>
+									</a> -->
 								</div>
 							</div>
 
@@ -381,7 +408,7 @@ h5 {
 					</section>
 
 					<!-- Hi! just a small update. -->
-					<section>
+					<section class="m-b-2">
 						<div class="container">
 							<div class="row">
 								<div class="col-12">
@@ -426,7 +453,13 @@ h5 {
 					<div class="percept-container">
 
 						<div class="percept-rc">
-							<h6 class="m-t-1 m-b-2">Art</h6>
+
+							<div class="title-action m-b-2">
+								<h6>Art</h6>
+								<a class="title-action__button" href="/art" title="Art Entries">
+									<span>View All</span> <i class="fa-sharp fa-light fa-arrows-to-eye"></i>
+								</a>
+							</div>
 
 							<div class="percept-rc__entry-container">
 
@@ -458,11 +491,11 @@ h5 {
 									))}
 								</Gallery>
 
-								<a class="percept-rc__entry bsln-card" href="/art" title="Art Entries" style="min-height: 150rem; display: flex; align-items: center;justify-content: center;">
+								<!-- <a class="percept-rc__entry bsln-card" href="/art" title="Art Entries" style="min-height: 150rem; display: flex; align-items: center;justify-content: center;">
 									<div class="bsln-card__body text-align--center" style="padding: 0;">
 										<span><i class="fa-sharp fa-light fa-arrows-to-eye fa-2xl"></i></span>
 									</div>
-								</a>
+								</a> -->
 
 							</div>
 
@@ -470,7 +503,12 @@ h5 {
 
 						<div class="percept-journal">
 
-							<h6 class="m-t-1 m-b-2">Journal Entries</h6>
+							<div class="title-action m-b-2">
+								<h6>Essays</h6>
+								<a class="title-action__button" href="/essays" title="Essay Entries">
+									<span>View All</span> <i class="fa-sharp fa-light fa-arrows-to-eye"></i>
+								</a>
+							</div>
 
 							<div class="entry-container">
 
@@ -499,11 +537,11 @@ h5 {
 									))
 								}
 
-								<a class="entry bsln-card" href="/essays" title="Essay Entries" style="min-height: 150rem; display: flex; align-items: center;justify-content: center;">
+								<!-- <a class="entry bsln-card" href="/essays" title="Essay Entries" style="min-height: 150rem; display: flex; align-items: center;justify-content: center;">
 									<div class="bsln-card__body text-align--center" style="padding: 0;">
 										<span><i class="fa-sharp fa-light fa-arrows-to-eye fa-2xl"></i></span>
 									</div>
-								</a>
+								</a> -->
 
 							</div>
 
