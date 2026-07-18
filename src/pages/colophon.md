@@ -11,6 +11,8 @@ background: '/assets/product/images/percept/p-bg-01.jpg'
 
 ***Percept Index started as a writing project. It has since grown into an illustration practice as well — an evolving record in the Western esoteric tradition. The text below is the original colophon and remains accurate to the project's origin.***
 
+*For where the project stands now and where it is going, read [When I turn, it turns with me.](https://perceptindex.substack.com/p/when-i-turn-it-turns-with-me) — the current statement of intent.*
+
 <span class="font-family--mono font-size--md"><strong>Percept - /pûr′sĕpt″/</strong></span>
 
 > a mental concept that is developed as a consequence of the process of perception.
