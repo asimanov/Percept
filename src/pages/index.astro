@@ -33,13 +33,40 @@ const latestPosts = [
   })),
 ]
   .sort((a, b) => b.post.data.pubDate.valueOf() - a.post.data.pubDate.valueOf())
-  .slice(0, 5);
+  .slice(0, 7);
 
 const latestFeatured = latestPosts[0];
 const latestRecent = latestPosts.slice(1);
 ---
 
 <style>
+/* ---- Landing layout: full-width feature row, aside drops below it ---- */
+/* Base .Layout grid (global.css) is 2 rows: Masthead / Aside right, Main left.
+   Landing uses 3 rows: nav + masthead, full-width Latest, then Main + Aside. */
+@container app (inline-size>=800rem) {
+	.Layout.Layout--landing {
+		grid-template-rows: auto auto 1fr;
+	}
+
+	.Layout.Layout--landing .Landing-nav {
+		grid-area: 1/1/2/2;
+		padding-block-start: 6.25rem;
+	}
+
+	.Layout.Layout--landing .Landing-feature {
+		grid-area: 2/1/3/4;
+	}
+
+	.Layout.Layout--landing .Main {
+		grid-area: 3/1/4/2;
+		padding-block-start: 0;
+	}
+
+	.Layout.Layout--landing .Aside {
+		grid-area: 3/3/4/4;
+	}
+}
+
 .landing-contact {
 	list-style-type: none;
 	margin: 0;
@@ -185,16 +212,16 @@ h5 {
 }
 
 .fn-featured-wrap {
-  width: 55%;
+  width: 45%;
 }
 
 .fn-grid-wrap {
-  width: 45%;
+  width: 55%;
 }
 
 .fn-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 }
 
@@ -357,17 +384,18 @@ h5 {
 
 	<body>
 		<div class="App">
-			<div class="Layout">
+			<div class="Layout Layout--landing">
 
 				<div class="Masthead">
 					<Header />
 				</div>
 
-				<main class="Main">
+				<div class="Landing-nav">
 					<Nav />
+				</div>
 
-					<!-- Latest: field notes + essays -->
-					<section class="m-b-2">
+				<!-- Latest: field notes + essays — full-width feature row -->
+				<section class="Landing-feature m-b-2">
 						<div class="title-action m-b-2">
 							<h6>Latest</h6>
 							<a class="title-action__button" href="/field-notes" title="All Field Notes">
@@ -421,6 +449,8 @@ h5 {
 
 						</div>
 					</section>
+
+				<main class="Main">
 
 					<!-- Hi! just a small update. -->
 					<section class="m-b-2">
