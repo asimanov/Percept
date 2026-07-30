@@ -1,7 +1,8 @@
 import { defineCollection, z } from 'astro:content';
+import { glob } from 'astro/loaders';
 
 const art = defineCollection({
-	type: 'content',
+	loader: glob({ base: './src/content/art', pattern: '**/*.md' }),
 	// Type-check frontmatter using a schema
 	schema: z.object({
 		title: z.string(),
@@ -21,7 +22,7 @@ const art = defineCollection({
 });
 
 const essays = defineCollection({
-	type: 'content',
+	loader: glob({ base: './src/content/essays', pattern: '**/*.md' }),
 	// Type-check frontmatter using a schema
 	schema: z.object({
 		title: z.string(),
@@ -37,7 +38,7 @@ const essays = defineCollection({
 });
 
 const M43 = defineCollection({
-	type: 'content',
+	loader: glob({ base: './src/content/M43', pattern: '**/*.md' }),
 	// Type-check frontmatter using a schema
 	schema: z.object({
 		title: z.string(),
@@ -54,7 +55,7 @@ const M43 = defineCollection({
 });
 
 const fieldNotes = defineCollection({
-	type: 'content',
+	loader: glob({ base: './src/content/field-notes', pattern: '**/*.md' }),
 	schema: z.object({
 		title: z.string(),
 		description: z.string(),

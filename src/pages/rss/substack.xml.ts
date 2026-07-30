@@ -28,14 +28,14 @@ export async function GET(context: APIContext) {
     if (entry.collection === 'essays') basePath = '/essays/';
     if (entry.collection === 'art') basePath = '/art/';
 
-    const link = `${basePath}${entry.slug}`;
+    const link = `${basePath}${entry.id}`;
 
     return {
-      title: entry.data.title ?? entry.slug,
+      title: entry.data.title ?? entry.id,
       pubDate: entry.data.updatedDate ?? entry.data.pubDate,
       link,
       description: entry.data.description ?? '',
-      content: markdownToHtml(entry.body), // HTML for Substack
+      content: markdownToHtml(entry.body ?? ''), // HTML for Substack
     };
   });
 

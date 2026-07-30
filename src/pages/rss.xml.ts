@@ -45,7 +45,7 @@ export async function GET(context: APIContext) {
     const label = labels[name];
     const base = basePaths[name];
 
-    const linkPath = `${base}${post.slug}`;
+    const linkPath = `${base}${post.id}`;
     const absLink = new URL(linkPath, context.site!).toString();
 
     const bg = post.data.background
@@ -58,7 +58,7 @@ export async function GET(context: APIContext) {
     const category = `<category>${escapeXml(label)}</category>`;
 
     return {
-      title: post.data.title ?? post.slug,
+      title: post.data.title ?? post.id,
       description: post.data.description ?? '',
       link: linkPath,
       pubDate: post.data.updatedDate ?? post.data.pubDate,
