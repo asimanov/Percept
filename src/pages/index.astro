@@ -55,6 +55,9 @@ const latestRecent = latestPosts.slice(1);
 
 	.Layout.Layout--landing .Landing-feature {
 		grid-area: 2/1/3/4;
+		/* Row 2 starts below the masthead (taller than the nav), leaving a dead
+		   band under the nav — tuck the feature up into it. */
+		margin-block-start: -30rem;
 	}
 
 	.Layout.Layout--landing .Main {
