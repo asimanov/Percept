@@ -8,20 +8,35 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 import { getCollection } from 'astro:content';
 import Gallery from '../components/Gallery.astro';
 
-const posts = (await getCollection('essays'))
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 11);
+const essayPosts = (await getCollection('essays'))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const posts = essayPosts.slice(0, 11);
 
 const artPosts = (await getCollection('art'))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 4);
 
-const fnPosts = (await getCollection('field-notes'))
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+const fieldNotePosts = (await getCollection('field-notes'))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const latestPosts = [
+  ...fieldNotePosts.map((post) => ({
+    post,
+    url: `/field-notes/${post.id.replace(/\.md$/, '')}`,
+    image: post.data.thumb,
+  })),
+  ...essayPosts.map((post) => ({
+    post,
+    url: `/essays/${post.id.replace(/\.md$/, '')}`,
+    image: post.data.background,
+  })),
+]
+  .sort((a, b) => b.post.data.pubDate.valueOf() - a.post.data.pubDate.valueOf())
   .slice(0, 5);
 
-const fnFeatured = fnPosts[0];
-const fnRecent = fnPosts.slice(1);
+const latestFeatured = latestPosts[0];
+const latestRecent = latestPosts.slice(1);
 ---
 
 <style>
@@ -161,7 +176,7 @@ h5 {
 	text-wrap: pretty;
 }
 
-/* ---- Field Notes section ---- */
+/* ---- Latest (field notes + essays) section ---- */
 .fn-section {
   display: flex;
   flex-direction: row;
@@ -351,29 +366,29 @@ h5 {
 				<main class="Main">
 					<Nav />
 
-					<!-- Field Notes section -->
+					<!-- Latest: field notes + essays -->
 					<section class="m-b-2">
 						<div class="title-action m-b-2">
-							<h6>Field Notes</h6>
+							<h6>Latest</h6>
 							<a class="title-action__button" href="/field-notes" title="All Field Notes">
-								<span>View All</span> <i class="fa-sharp fa-light fa-arrows-to-eye"></i>
+								<span>View All Field Notes</span> <i class="fa-sharp fa-light fa-arrows-to-eye"></i>
 							</a>
 						</div>
 
 						<div class="fn-section">
 
 							<div class="fn-featured-wrap">
-								{fnFeatured && (
-									<a href={`/field-notes/${fnFeatured.id.replace(/\.md$/, '')}`} class="fn-featured bsln-card">
-										<img src={fnFeatured.data.thumb} alt={fnFeatured.data.title} />
+								{latestFeatured && (
+									<a href={latestFeatured.url} class="fn-featured bsln-card">
+										<img src={latestFeatured.image} alt={latestFeatured.post.data.title} />
 										<div class="bsln-card__body">
 											<p class="meta">
 												<time class="font-size--xs">
 													<i class="fa-sharp fa-light fa-calendar"></i>
-													{new Date(fnFeatured.data.pubDate).toLocaleDateString('en-us', { year: 'numeric', month: 'numeric', day: 'numeric' })}
+													{new Date(latestFeatured.post.data.pubDate).toLocaleDateString('en-us', { year: 'numeric', month: 'numeric', day: 'numeric' })}
 												</time>
 											</p>
-											<p class="fn-excerpt">{fnFeatured.data.description}</p>
+											<p class="fn-excerpt">{latestFeatured.post.data.description}</p>
 										</div>
 									</a>
 								)}
@@ -381,17 +396,17 @@ h5 {
 
 							<div class="fn-grid-wrap">
 								<div class="fn-grid">
-									{fnRecent.map((post) => (
-										<a href={`/field-notes/${post.id.replace(/\.md$/, '')}`} class="fn-entry bsln-card">
-											<img src={post.data.thumb} alt={post.data.title} />
+									{latestRecent.map((entry) => (
+										<a href={entry.url} class="fn-entry bsln-card">
+											<img src={entry.image} alt={entry.post.data.title} />
 											<div class="bsln-card__body">
 												<p class="meta">
 													<time class="font-size--xs">
 														<i class="fa-sharp fa-light fa-calendar"></i>
-														{new Date(post.data.pubDate).toLocaleDateString('en-us', { year: 'numeric', month: 'numeric', day: 'numeric' })}
+														{new Date(entry.post.data.pubDate).toLocaleDateString('en-us', { year: 'numeric', month: 'numeric', day: 'numeric' })}
 													</time>
 												</p>
-												<p class="fn-excerpt">{post.data.description}</p>
+												<p class="fn-excerpt">{entry.post.data.description}</p>
 											</div>
 										</a>
 									))}
