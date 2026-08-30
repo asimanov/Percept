@@ -33,10 +33,26 @@ for (const post of sortedPosts) {
   width: 100%;
 }
 
+/* Thumbnails arrive vertical, horizontal, or square (the older format) in no
+   fixed order. Rather than let each card's height follow its artwork, every
+   thumbnail gets the same display frame and the artwork fills it via
+   object-fit: cover - scaled to fill, never distorted, cropped for display
+   only. Source files are untouched. Same two knobs as the landing page. */
 .entry-container {
+  --fn-thumb-ratio: 1 / 1;   /* thumbnail frame */
+  --fn-focal: center;        /* which part of a panel survives the crop */
+
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 40px;
+  /* Frames are uniform, so this is only a guard against a stray tall card. */
+  align-items: start;
+}
+
+.entry img {
+  aspect-ratio: var(--fn-thumb-ratio);
+  object-fit: cover;
+  object-position: var(--fn-focal);
 }
 
 .entry {

@@ -207,7 +207,17 @@ h5 {
 }
 
 /* ---- Latest (field notes + essays) section ---- */
+/* Panels arrive vertical or horizontal in no fixed order, so the landing page
+   stops reacting to their shape. Every thumbnail gets a fixed display frame
+   and the artwork fills it via object-fit: cover - scaled to fill, never
+   distorted, cropped for display only. Source files are untouched.
+   The four knobs below are the whole layout; tune them here. */
 .fn-section {
+  --fn-thumb-ratio: 1 / 1;    /* grid thumbnail frame */
+  --fn-grid-lines: 3;         /* excerpt lines, grid cards */
+  --fn-featured-lines: 6;     /* excerpt lines, featured card */
+  --fn-focal: center;         /* which part of a panel survives the crop */
+
   display: flex;
   flex-direction: row;
   gap: 40px;
@@ -216,6 +226,10 @@ h5 {
 
 .fn-featured-wrap {
   width: 45%;
+  /* The featured card is taken out of flow (below) so that the grid alone
+     decides how tall this section is. Otherwise the two columns fight:
+     whichever happens to be taller wins and the other is left short. */
+  position: relative;
 }
 
 .fn-grid-wrap {
@@ -226,6 +240,8 @@ h5 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
+  /* Frames are uniform, so this is only a guard against a stray card. */
+  align-items: start;
 }
 
 .fn-featured,
@@ -276,6 +292,45 @@ h5 {
   &:hover {
     color: var(--set-color-purple);
   }
+}
+
+/* Grid thumbnails: one fixed frame, every card identical height. */
+.fn-entry img {
+  aspect-ratio: var(--fn-thumb-ratio);
+  object-fit: cover;
+  object-position: var(--fn-focal);
+}
+
+/* Featured: the frame takes whatever height the grid beside it comes to, so
+   the two halves always end flush regardless of what orientation leads. */
+.fn-featured {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  /* .bsln-card ships flex-wrap: wrap; with a fixed height that wraps the body
+     into a second column instead of stacking it under the image. */
+  flex-wrap: nowrap;
+}
+
+.fn-featured img {
+  flex: 1 1 auto;
+  min-height: 0;
+  object-fit: cover;
+  object-position: var(--fn-focal);
+}
+
+.fn-featured .bsln-card__body {
+  flex: 0 0 auto;
+}
+
+.fn-featured .fn-excerpt {
+  -webkit-line-clamp: var(--fn-featured-lines);
+  font-size: 1.05em;
+}
+
+.fn-entry .fn-excerpt {
+  -webkit-line-clamp: var(--fn-grid-lines);
 }
 
 .fn-excerpt {
@@ -331,6 +386,16 @@ h5 {
   .fn-featured-wrap,
   .fn-grid-wrap {
     width: 100%;
+  }
+
+  .fn-featured {
+    position: static;
+    inset: auto;
+  }
+
+  .fn-featured img {
+    flex: 0 0 auto;
+    aspect-ratio: var(--fn-thumb-ratio);
   }
 }
 
